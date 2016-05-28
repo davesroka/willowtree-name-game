@@ -29,4 +29,7 @@ module.exports = {
       components: `${APP_DIR}/js/components`,
     },
   },
+  devServer: {
+    historyApiFallback: true,
+  },
 };
