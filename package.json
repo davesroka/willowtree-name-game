@@ -1,12 +1,12 @@
 {
-  "name": "react-starter",
+  "name": "willowtreen-name-game",
   "version": "1.0.0",
-  "description": "React starter kit",
-  "main": "app.js",
+  "description": "Willowtree Name Game",
+  "main": "main.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --inline --content-base app/",
     "test": "",
-    "lint": "eslint app/***"
+    "lint": "eslint app/*** --ext .js --ignore-path .gitignore --cache"
   },
   "repository": {
     "type": "git",
@@ -33,15 +33,18 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
+    "eslint": "^2.11.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.2.2",
+    "eslint-plugin-react": "^5.1.1",
     "node-sass": "^3.7.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux": "^3.5.2",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
+    "superagent": "^2.0.0-alpha.3",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
   }
