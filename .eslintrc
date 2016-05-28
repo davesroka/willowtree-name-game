@@ -32,5 +32,8 @@
     "unicodeCodePointEscapes": true,
     "globalReturn": true,
     "jsx": true,
+  },
+  "rules":{
+    "import/no-unresolved": 1
   }
 }
