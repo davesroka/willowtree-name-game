@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { fetchTeamMembers } from 'actions/name-game-actions';
 
 import Hello from 'components/hello.js';
 import World from 'components/world.js';
 
-export default class HelloWorld extends React.Component {
-
+class App extends React.Component {
+  
   render() {
     return (
       <div>
@@ -14,3 +17,6 @@ export default class HelloWorld extends React.Component {
     );
   }
 }
+
+export default App;
+

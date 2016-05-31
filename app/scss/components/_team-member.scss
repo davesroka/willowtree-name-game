@@ -1,0 +1,16 @@
+.team-member {
+  padding:6px;
+  width:200px;
+  height:200px;
+  margin:auto; 
+  
+  img { 
+   max-width:90%; 
+  }
+  
+  &.correct-answer{
+    transition: .5s filter;
+    filter: sepia() saturate(4) hue-rotate(295deg);
+  }
+   
+}

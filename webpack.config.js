@@ -26,10 +26,14 @@ module.exports = {
   },
   resolve: {
     alias: {
+      containers: `${APP_DIR}/js/containers`,
       components: `${APP_DIR}/js/components`,
+      actions: `${APP_DIR}/js/actions`,
+      reducers: `${APP_DIR}/js/reducers`,
     },
   },
   devServer: {
     historyApiFallback: true,
   },
+  devtool: 'source-map',
 };

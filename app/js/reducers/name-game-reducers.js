@@ -1,0 +1,87 @@
+import fetch from 'isomorphic-fetch';
+import _ from 'lodash';
+import {
+  REQUEST_TEAM_MEMBERS,
+  RECEIVE_TEAM_MEMBERS,
+  REFRESH_GAME_CHOICES,
+  CHECK_ANSWER
+} from 'actions/name-game-actions';
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+export default function nameGameReducers(state = {}, action) {
+  switch (action.type) {
+    case REQUEST_TEAM_MEMBERS:
+      return { ...state, loading: true };
+
+    case RECEIVE_TEAM_MEMBERS:
+      return { ...state, teamMembers: action.teamMembers };
+    // return Object.assign({}, state, {teamMembers: action.teamMembers})
+
+    case REFRESH_GAME_CHOICES: {
+      // TODO convert to config
+      let {teamMembers, numberOfChoices} = action;
+      teamMembers = teamMembers || state.teamMembers;
+      const previousChoices = state.choices;
+      const updatedTeamMembers = [];
+      
+      let choices = [];
+      
+
+      // TODO instead of passing back a new array, just add a prop to teamMember for answer, inCurrentRound, inLastRound
+      if (teamMembers) {
+        // update teamember statuses
+        for (let teamMember of teamMembers) {
+          if (teamMember.inCurrentRound) {
+            teamMember.inLastRound = true;
+            teamMember.inCurrentRound = false;
+          }
+          teamMember.answer = false;
+        }
+        let optionsCount=0;
+        while (optionsCount < numberOfChoices) {
+          const randomIndex = getRandomInt(0, teamMembers.length);
+          let teamMember = teamMembers[randomIndex];
+
+          if (!teamMember.inCurrentRound && !teamMember.inLastRound) {
+            teamMember.inCurrentRound = true;
+            optionsCount++;
+          }
+        }       
+
+        const answerIndex = getRandomInt(0, numberOfChoices);
+        teamMembers[answerIndex].answer = true;
+
+        return { ...state,
+          teamMembers: [...teamMembers],
+          answer: teamMembers[answerIndex],
+        };
+      }
+    }
+
+    case CHECK_ANSWER: {
+      const{ lastAnswer } = action;
+      
+      let message;
+   
+      let teamMembers = [...state.teamMembers];
+      const index = teamMembers.findIndex(teamMember=>teamMember==lastAnswer);
+                   
+      if (lastAnswer.answer){
+        teamMembers[index].displayStyle = 'correct-answer';
+        message = 'Correct!';
+      }
+      else{
+        teamMembers[index].displayStyle = 'incorrect-answer';
+        message = 'Incorrect!';
+      }            
+      return {...state,
+        teamMembers,
+        message,
+      }
+    }
+    default:
+      return state;
+  }
+}
