@@ -24,58 +24,46 @@ export default function nameGameReducers(state = {}, action) {
       let {teamMembers, numberOfChoices} = action;
       teamMembers = teamMembers || state.teamMembers;
       const previousChoices = state.choices;
-      const updatedTeamMembers = [];
-      
-      let choices = [];
-      
 
-      // TODO instead of passing back a new array, just add a prop to teamMember for answer, inCurrentRound, inLastRound
+      let choices = [];
+
       if (teamMembers) {
-        // update teamember statuses
-        for (let teamMember of teamMembers) {
-          if (teamMember.inCurrentRound) {
-            teamMember.inLastRound = true;
-            teamMember.inCurrentRound = false;
-          }
-          teamMember.answer = false;
-        }
-        let optionsCount=0;
-        while (optionsCount < numberOfChoices) {
+
+        while (choices.length < numberOfChoices + 1) {
           const randomIndex = getRandomInt(0, teamMembers.length);
           let teamMember = teamMembers[randomIndex];
 
-          if (!teamMember.inCurrentRound && !teamMember.inLastRound) {
-            teamMember.inCurrentRound = true;
-            optionsCount++;
+          if (!_.includes(previousChoices, teamMember) && !_.includes(choices, teamMember)) {
+            choices.push(teamMember);
           }
-        }       
+        }
 
         const answerIndex = getRandomInt(0, numberOfChoices);
-        teamMembers[answerIndex].answer = true;
+        choices[answerIndex].answer = true;
 
         return { ...state,
-          teamMembers: [...teamMembers],
+          choices,
           answer: teamMembers[answerIndex],
         };
       }
     }
 
     case CHECK_ANSWER: {
-      const{ lastAnswer } = action;
-      
+      const { lastAnswer } = action;
+
       let message;
-   
+
       let teamMembers = [...state.teamMembers];
-      const index = teamMembers.findIndex(teamMember=>teamMember==lastAnswer);
-                   
-      if (lastAnswer.answer){
+      const index = teamMembers.findIndex(teamMember => teamMember == lastAnswer);
+
+      if (lastAnswer.answer) {
         teamMembers[index].displayStyle = 'correct-answer';
         message = 'Correct!';
       }
-      else{
+      else {
         teamMembers[index].displayStyle = 'incorrect-answer';
         message = 'Incorrect!';
-      }            
+      }
       return {...state,
         teamMembers,
         message,

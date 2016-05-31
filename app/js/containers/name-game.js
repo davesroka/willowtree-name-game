@@ -4,10 +4,10 @@ import TeamMemberList from 'components/team-members/team-member-list';
 import { checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
 
 const mapStateToProps = (state) => {
-  const { teamMembers, possibleResponses, answer, lastAnswer, message } = state.nameGame;
+  const { teamMembers, choices, answer, lastAnswer, message } = state.nameGame;
   return {
     teamMembers,
-    possibleResponses,
+    choices,
     answer,
     lastAnswer,
     message,
@@ -35,17 +35,16 @@ class NameGame extends React.Component {
   }
 
   render() {
-    const { teamMembers, possibleResponses, onTeamMemberClick, answer, lastAnswer, message} = this.props;
-(
-  teamMembers) ?console.log('currentRound', teamMembers.filter(teamMember => teamMember.inCurrentRound)): null;
+    const { teamMembers, choices, onTeamMemberClick, answer, lastAnswer, message} = this.props;
+    
     return (
       <div>
         <h2>Who is {(answer) ? answer.name : null}?</h2>
         <h3>{message}</h3>
         <span>Last Answer: <pre>{ (lastAnswer) ? JSON.stringify(lastAnswer) : 'none'}</pre></span>
-        {(teamMembers)
+        {(choices)
           ? <TeamMemberList
-            teamMembers={teamMembers.filter(teamMember => teamMember.inCurrentRound)}
+            teamMembers={choices}
             onTeamMemberClick={onTeamMemberClick}
             />
           : null}
