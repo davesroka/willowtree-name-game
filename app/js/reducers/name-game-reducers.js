@@ -29,7 +29,7 @@ export default function nameGameReducers(state = {}, action) {
 
       if (teamMembers) {
 
-        while (choices.length < numberOfChoices + 1) {
+        while (choices.length < numberOfChoices) {
           const randomIndex = getRandomInt(0, teamMembers.length);
           let teamMember = teamMembers[randomIndex];
 
@@ -43,7 +43,7 @@ export default function nameGameReducers(state = {}, action) {
 
         return { ...state,
           choices,
-          answer: teamMembers[answerIndex],
+          answer: choices[answerIndex],
         };
       }
     }
@@ -59,6 +59,7 @@ export default function nameGameReducers(state = {}, action) {
       if (lastAnswer.answer) {
         teamMembers[index].displayStyle = 'correct-answer';
         message = 'Correct!';
+        
       }
       else {
         teamMembers[index].displayStyle = 'incorrect-answer';
