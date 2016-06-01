@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchTeamMembers: () => {
       dispatch(fetchTeamMembers());
     },
-    refreshGameOptions: () => {
+    refreshGameChoices: () => {
       dispatch(refreshGameChoices());
     },
   };
@@ -34,9 +34,15 @@ class NameGame extends React.Component {
     this.props.fetchTeamMembers();
   }
 
+  componentWillReceiveProps() {
+    if (this.props.lastAnswer && this.props.lastAnswer.answer) {
+      setTimeout(this.props.refreshGameChoices, 1000);
+    }
+  }
+
   render() {
     const { teamMembers, choices, onTeamMemberClick, answer, lastAnswer, message} = this.props;
-    
+
     return (
       <div>
         <h2>Who is {(answer) ? answer.name : null}?</h2>

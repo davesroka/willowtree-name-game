@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import {
   REQUEST_TEAM_MEMBERS,
@@ -50,6 +49,7 @@ export default function nameGameReducers(state = {}, action) {
 
     case CHECK_ANSWER: {
       const { lastAnswer } = action;
+      const { choice } = state;
 
       let message;
 
@@ -59,6 +59,7 @@ export default function nameGameReducers(state = {}, action) {
       if (lastAnswer.answer) {
         teamMembers[index].displayStyle = 'correct-answer';
         message = 'Correct!';
+        lastAnswer.correct = true;
         
       }
       else {
@@ -68,6 +69,7 @@ export default function nameGameReducers(state = {}, action) {
       return {...state,
         teamMembers,
         message,
+        lastAnswer,
       }
     }
     default:

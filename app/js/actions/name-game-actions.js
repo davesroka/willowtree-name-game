@@ -1,3 +1,4 @@
+import ApiService from 'services/api-service.js';
 /*
  * action types
  */
@@ -7,6 +8,8 @@ export const REQUEST_TEAM_MEMBERS = 'REQUEST_TEAM_MEMBERS';
 export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
 export const CHECK_ANSWER = 'CHECK_ANSWER';
+export const UPDATE_ANSWER_STATUS = 'UPDATE_ANSWER_STATUS';
+
 
 /*
  * action creators
@@ -38,10 +41,8 @@ export function refreshGameChoices(teamMembers, numberOfChoices = 5) {
 
 export function fetchTeamMembers() {
   return dispatch => {
-    fetch('http://localhost:3000/db')
-      .then(response => response.json())
+    ApiService.getTeamMembers()
       .then(teamMembers => {
-        // console.log('json data', teamMembers);
         dispatch(receiveTeamMembers(teamMembers));
         dispatch(refreshGameChoices(teamMembers));
       })
