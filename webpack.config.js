@@ -30,6 +30,7 @@ module.exports = {
       components: `${APP_DIR}/js/components`,
       actions: `${APP_DIR}/js/actions`,
       reducers: `${APP_DIR}/js/reducers`,
+      services: `${APP_DIR}/js/services`,
     },
   },
   devServer: {
