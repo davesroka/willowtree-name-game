@@ -34,9 +34,11 @@ class NameGame extends React.Component {
     this.props.fetchTeamMembers();
   }
 
-  componentWillReceiveProps() {
-    if (this.props.lastAnswer && this.props.lastAnswer.answer) {
-      setTimeout(this.props.refreshGameChoices, 1000);
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.lastAnswer && nextProps.lastAnswer.answer) {
+      console.log('lastAnswer = answer');
+      setTimeout(nextProps.refreshGameChoices, 3000);
     }
   }
 
@@ -47,12 +49,11 @@ class NameGame extends React.Component {
       <div>
         <h2>Who is {(answer) ? answer.name : null}?</h2>
         <h3>{message}</h3>
-        <span>Last Answer: <pre>{ (lastAnswer) ? JSON.stringify(lastAnswer) : 'none'}</pre></span>
         {(choices)
           ? <TeamMemberList
-            teamMembers={choices}
-            onTeamMemberClick={onTeamMemberClick}
-            />
+          teamMembers={choices}
+          onTeamMemberClick={onTeamMemberClick}
+        />
           : null}
       </div>);
   }
