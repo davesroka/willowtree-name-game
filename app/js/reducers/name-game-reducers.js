@@ -43,31 +43,31 @@ export default function nameGameReducers(state = {}, action) {
         return { ...state,
           choices,
           answer: choices[answerIndex],
+          lastAnswer: null,
         };
       }
     }
 
     case CHECK_ANSWER: {
       const { lastAnswer } = action;
-      const { choice } = state;
 
       let message;
 
-      let teamMembers = [...state.teamMembers];
-      const index = teamMembers.findIndex(teamMember => teamMember == lastAnswer);
+      let choices = [...state.choices];
+      const index = choices.findIndex(choice => choice == lastAnswer);
 
       if (lastAnswer.answer) {
-        teamMembers[index].displayStyle = 'correct-answer';
+        choices[index].displayStyle = 'team-member-correct';
         message = 'Correct!';
         lastAnswer.correct = true;
-        
+
       }
       else {
-        teamMembers[index].displayStyle = 'incorrect-answer';
+        choices[index].displayStyle = 'team-member-incorrect';
         message = 'Incorrect!';
       }
       return {...state,
-        teamMembers,
+        choices,
         message,
         lastAnswer,
       }
