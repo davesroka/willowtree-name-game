@@ -1,6 +1,6 @@
 import ApiService from 'services/api-service.js';
 import { updateSettings } from 'actions/settings-actions';
-import { updateStatistics, addGameStarted } from 'actions/stats-actions';
+import { updateStatistics, addGameStarted, STATS_MODEL} from 'actions/stats-actions';
 /*
  * action types
  */
@@ -17,11 +17,12 @@ export const UPDATE_ANSWER_STATUS = 'UPDATE_ANSWER_STATUS';
  * action creators
  */
 export function init() {
-  return dispatch => {
+  return ((dispatch) => {
+    console.log('statistics', localStorage.getObject('statistics'));
     dispatch(updateSettings());
     dispatch(updateStatistics());
     dispatch(fetchTeamMembers());
-  };
+  });
 }
 
 export function requestTeamMembers() {
@@ -64,7 +65,8 @@ export function fetchTeamMembers() {
     ApiService.getTeamMembers()
       .then(teamMembers => {
         dispatch(receiveTeamMembers(teamMembers));
-        //dispatch(refreshGameChoices(teamMembers));
+        dispatch(startNewGame());
+        // dispatch(refreshGameChoices(teamMembers));
       })
       .catch(error => console.error(error));
   };
