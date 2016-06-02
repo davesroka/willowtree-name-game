@@ -1,22 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 
-import { fetchTeamMembers } from 'actions/name-game-actions';
-
-import Hello from 'components/hello.js';
-import World from 'components/world.js';
-
-class App extends React.Component {
-  
-  render() {
-    return (
-      <div>
-        <h1>WillowTree name game</h1>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const App = ({children}) => (
+  <div className='container-fluid'>
+    <Navbar fluid>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <Link to="/">
+            <span>WillowTree Name Game</span>
+          </Link>
+        </Navbar.Brand>
+      </Navbar.Header>
+      <Navbar.Collapse >
+        <Nav pullRight>
+          <NavItem eventKey={1} href="#/settings">Settings</NavItem>
+        </Nav>
+      </Navbar.Collapse>
+      <Navbar.Toggle pullRight/>
+    </Navbar>
+    <div className="well well-lg">
+      {children}
+    </div>
+  </div>
+);
 
 export default App;
+
 
