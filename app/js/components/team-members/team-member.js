@@ -5,11 +5,11 @@ const TeamMember = ({
   url,
   onClick,
   displayStyle,
-}) =>
+}) =>(
   <div className={`team-member ${displayStyle}`} onClick={() => onClick(name) }>
     <img src={url} alt={'team member'} />
-    <span className="name"> {name} </span>
+    <strong className="name"> {name} </strong>
   </div>
-  ;
+);
 
 export default TeamMember;

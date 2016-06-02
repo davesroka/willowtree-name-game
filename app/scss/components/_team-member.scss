@@ -6,15 +6,19 @@
 
   .name {
     display: none;
-    position: absolute;
-    bottom: 10px;
-
-    opacity: 1;
+    width:100%;
+    background: rgba($color: $gray-base, $alpha: 0.5);
+    position: relative;
+     bottom: 40px;
+    color: $gray-lighter;
+    text-align: center;
+    font-size:1.6em;
     z-index: 10;
+
   }
 
   img {
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .overlay {
