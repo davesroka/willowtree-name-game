@@ -65,6 +65,7 @@ export default function nameGameReducers(state = {}, action) {
       else {
         choices[index].displayStyle = 'team-member-incorrect';
         message = 'Incorrect!';
+        lastAnswer.correct = false;
       }
       return {...state,
         choices,

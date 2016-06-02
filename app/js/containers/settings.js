@@ -1,23 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FormGroup,ControlLabel, FormControl, Checkbox } from 'react-bootstrap'
 import { updateSettings } from 'actions/settings-actions';
 
 const mapStateToProps = (state) => {
+  const { numberOfChoices } = state.settings;
   return {
-    ...state.settings,
+    numberOfChoices,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTeamMemberClick: (clickedTeamMember) => {
-      dispatch(checkAnswer(clickedTeamMember));
-    },
-    fetchTeamMembers: () => {
-      dispatch(fetchTeamMembers());
-    },
-    refreshGameChoices: () => {
-      dispatch(refreshGameChoices());
+    updateSettings: (settings) => {
+      dispatch(updateSettings(settings));
     },
   };
 };
@@ -25,31 +21,15 @@ const mapDispatchToProps = (dispatch) => {
 class Settings extends React.Component {
 
   componentDidMount() {
-    this.props.getSettings();
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-    if (nextProps.lastAnswer && nextProps.lastAnswer.answer) {
-      console.log('lastAnswer = answer');
-      setTimeout(nextProps.refreshGameChoices, 3000);
-    }
+    this.props.updateSettings();
   }
 
   render() {
-    const { teamMembers, choices, onTeamMemberClick, answer, lastAnswer, message} = this.props;
+    const { numberOfChoices } = this.props;
 
     return (
-      <div>
-        <h2>Who is {(answer) ? answer.name : null}?</h2>
-        <h3>{message}</h3>
-        {(choices)
-          ? <TeamMemberList
-          teamMembers={choices}
-          onTeamMemberClick={onTeamMemberClick}
-        />
-          : null}
-      </div>);
+<div></div>
+    );
   }
 }
 

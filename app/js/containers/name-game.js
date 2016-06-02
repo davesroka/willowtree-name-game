@@ -1,21 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TeamMemberList from 'components/team-members/team-member-list';
-import { checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
+import StatisticsList from 'components/statistics-list';
+import LoadingSpinner from 'components/loading-spinner';
+import {init, checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
+import { updateSettings, addCorrect, addIncorrect, addGameStarted, addGameCompleted } from 'actions/settings-actions';
 
 const mapStateToProps = (state) => {
   const { teamMembers, choices, answer, lastAnswer, message } = state.nameGame;
+
   return {
     teamMembers,
     choices,
     answer,
     lastAnswer,
     message,
+    statistics: state.statistics,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    init: () => {
+      dispatch(init());
+    },
     onTeamMemberClick: (clickedTeamMember) => {
       dispatch(checkAnswer(clickedTeamMember));
     },
@@ -25,25 +33,34 @@ const mapDispatchToProps = (dispatch) => {
     refreshGameChoices: () => {
       dispatch(refreshGameChoices());
     },
+
   };
 };
 
 class NameGame extends React.Component {
 
   componentDidMount() {
-    this.props.fetchTeamMembers();
+    this.props.init();
   }
 
   componentWillReceiveProps(nextProps) {
+    const { lastAnswer, refreshGameChoices, addCorrect, addIncorrect, addGameCompleted } = nextProps;
 
-    if (nextProps.lastAnswer && nextProps.lastAnswer.answer) {
-      console.log('lastAnswer = answer');
-      setTimeout(nextProps.refreshGameChoices, 3000);
+    if (lastAnswer) {
+      if (lastAnswer.answer) {
+        // TODO refactor this into 1 action
+        addCorrect(lastAnswer);
+        addGameCompleted();
+        setTimeout(refreshGameChoices, 3000);
+
+      } else {
+        addIncorrect(lastAnswer);
+      }
     }
   }
 
   render() {
-    const { teamMembers, choices, onTeamMemberClick, answer, lastAnswer, message} = this.props;
+    const { choices, onTeamMemberClick, answer, message, statistics} = this.props;
 
     return (
       <div>
@@ -54,7 +71,8 @@ class NameGame extends React.Component {
           teamMembers={choices}
           onTeamMemberClick={onTeamMemberClick}
         />
-          : null}
+          : <LoadingSpinner />}
+        <StatisticsList statistics={statistics}/>
       </div>);
   }
 }

@@ -6,7 +6,7 @@ import {
 export default function settingsReducers(state = {}, action) {
   switch (action.type) {
     case UPDATE_SETTINGS:
-      return {...state, settings: action.settings};
+      return {...state, ...action.settings};
     default:
       return state;
   }
