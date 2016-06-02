@@ -7,6 +7,10 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import rootReducer from './reducers';
+import App from 'components/app.js';
+import NameGame from 'containers/name-game.js';
+import Settings from 'containers/settings.js';
+import '../scss/main.scss';
 
 const loggerMiddleWare = createLogger();
 
@@ -18,16 +22,13 @@ const store = createStore(
   )
 );
 
-import App from 'components/app.js';
-import NameGame from 'containers/name-game.js';
-import '../scss/main.scss';
-
 ReactDOM.render((
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={App}>
         <IndexRedirect to="namegame" />
         <Route path="namegame" component={NameGame} />
+        <Route path="settings" component={Settings} />
       </Route>
     </Router>
   </Provider>
