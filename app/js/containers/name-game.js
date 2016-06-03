@@ -59,18 +59,7 @@ class NameGame extends React.Component {
   componentWillReceiveProps(nextProps) {
     const {lastAnswer, refreshGameChoices, addCorrect, addIncorrect, addGameCompleted, incrementStat} = nextProps;
 
-    if (lastAnswer && this.props.lastAnswer !== nextProps.lastAnswer) {
-      if (lastAnswer.correct) {
-        // TODO refactor this into 1 action
-        incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName, lastAnswer);
-        incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName);
-        setTimeout(refreshGameChoices, 3000);
 
-      } else if (!lastAnswer.correct) {
-        incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName, lastAnswer);
-        // addIncorrect(lastAnswer);
-      }
-    }
   }
 
   render() {

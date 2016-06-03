@@ -46,8 +46,8 @@ export default function statsReducers(state = {}, action) {
         ...state,
         [statKey]: state[statKey] + incrementValue,
       };
-      
-      localStorage.setItem('statistics', statistics);
+
+      localStorage.setObject('statistics', statistics);
       return statistics;
     }
     default:

@@ -6,6 +6,8 @@ import {
   CHECK_ANSWER
 } from 'actions/name-game-actions';
 
+import { incrementStat } from 'actions/stats-actions';
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -60,13 +62,13 @@ export default function nameGameReducers(state = {}, action) {
         choices[index].displayStyle = 'team-member-correct';
         message = 'Correct!';
         lastAnswer.correct = true;
-
       }
       else {
         choices[index].displayStyle = 'team-member-incorrect';
         message = 'Incorrect!';
         lastAnswer.correct = false;
       }
+
       return {...state,
         choices,
         message,

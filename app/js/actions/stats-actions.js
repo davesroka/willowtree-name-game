@@ -91,15 +91,11 @@ export function addIncorrect(teamMember) {
   };
 }
 
-export function addGameStarted() {
-  return {
-    type: ADD_GAME_STARTED,
-  };
+export function addRoundStarted() {
+  dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED));
 }
 export function addGameCompleted() {
-  return {
-    type: ADD_GAME_COMPLETED,
-  };
+    dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED));
 }
 
 export function incrementStat(statKey, teamMember, incrementValue = 1) {
@@ -108,5 +104,5 @@ export function incrementStat(statKey, teamMember, incrementValue = 1) {
     statKey,
     teamMember,
     incrementValue,
-  }
+  };
 }

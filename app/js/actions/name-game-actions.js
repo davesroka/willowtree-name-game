@@ -10,7 +10,7 @@ export const REQUEST_TEAM_MEMBERS = 'REQUEST_TEAM_MEMBERS';
 export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
 export const CHECK_ANSWER = 'CHECK_ANSWER';
-export const UPDATE_ANSWER_STATUS = 'UPDATE_ANSWER_STATUS';
+export const UPDATE_TEAM_MEMBER_STYLE = 'UPDATE_TEAM_MEMBER_STYLE';
 
 
 /*
@@ -64,8 +64,20 @@ export function finishGame() {
 }
 
 export function checkAnswer(lastAnswer) {
+  return dispatch => {
+    if (lastAnswer.answer) {
+      dispatch(incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName, lastAnswer));
+      dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
+      setTimeout(refreshGameChoices, 3000);
+    } else {
+      dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName, lastAnswer));
+    }
+    dispatch(updateTeamMemberStyle(lastAnswer));
+  };
+}
+export function updateTeamMemberStyle(lastAnswer) {
   return {
-    type: CHECK_ANSWER,
+    type: UPDATE_TEAM_MEMBER_STYLE,
     lastAnswer,
   };
 }
