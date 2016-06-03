@@ -48,6 +48,7 @@ export default function statsReducers(state = {}, action) {
       };
 
       localStorage.setObject('statistics', statistics);
+      console.log('localstorage', localStorage);
       return statistics;
     }
     default:

@@ -62,12 +62,16 @@ export const STATS_MODEL = {
 /*
  * Action Creators
  */
-export function updateStatistics(statistics=STATS_MODEL) {
-  const localStatistics = localStorage.getItem('statistics');
 
-  if (statistics && statistics !== localStatistics) {
-    localStorage.setItem('statistics', statistics);
+export function initStatistics() {
+
+  let statistics = localStorage.getObject('statistics');
+  console.log('localStatistics', statistics);
+
+  if (!statistics){
+    statistics = STATS_MODEL;
   }
+
   console.log('statistics', statistics);
 
   return {
@@ -76,26 +80,20 @@ export function updateStatistics(statistics=STATS_MODEL) {
   };
 }
 
-export function addCorrect(teamMember) {
-
-  return {
-    type: ADD_CORRECT,
-    teamMember,
-  };
+export function addCorrect(lastAnswer) {
+  // TODO add individual stat tracking
+  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName));
 }
-
-export function addIncorrect(teamMember) {
-  return {
-    type: ADD_INCORRECT,
-    teamMember,
-  };
+export function addIncorrect(lastAnswer) {
+  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName));
 }
 
 export function addRoundStarted() {
-  dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED));
+  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED.objectName));
 }
-export function addGameCompleted() {
-    dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED));
+
+export function addRoundCompleted() {
+  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
 }
 
 export function incrementStat(statKey, teamMember, incrementValue = 1) {

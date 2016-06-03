@@ -3,10 +3,8 @@ import {
   REQUEST_TEAM_MEMBERS,
   RECEIVE_TEAM_MEMBERS,
   REFRESH_GAME_CHOICES,
-  CHECK_ANSWER
+  UPDATE_TEAM_MEMBER_STYLE,
 } from 'actions/name-game-actions';
-
-import { incrementStat } from 'actions/stats-actions';
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -22,35 +20,34 @@ export default function nameGameReducers(state = {}, action) {
 
     case REFRESH_GAME_CHOICES: {
       // TODO convert to config
-      let {teamMembers, numberOfChoices} = action;
-      teamMembers = teamMembers || state.teamMembers;
-      const previousChoices = state.choices;
+      const { numberOfChoices} = action;
+      const { teamMembers, choices } = state;
 
-      let choices = [];
+      let nextChoices = [];
 
       if (teamMembers) {
 
-        while (choices.length < numberOfChoices) {
+        while (nextChoices.length < numberOfChoices) {
           const randomIndex = getRandomInt(0, teamMembers.length);
           let teamMember = teamMembers[randomIndex];
 
-          if (!_.includes(previousChoices, teamMember) && !_.includes(choices, teamMember)) {
-            choices.push(teamMember);
+          if (!_.includes(choices, teamMember) && !_.includes(nextChoices, teamMember)) {
+            nextChoices.push(teamMember);
           }
         }
 
         const answerIndex = getRandomInt(0, numberOfChoices);
-        choices[answerIndex].answer = true;
+        nextChoices[answerIndex].answer = true;
 
         return { ...state,
-          choices,
-          answer: choices[answerIndex],
-          lastAnswer: null,
+          choices: nextChoices,
+          answer: nextChoices[answerIndex],
         };
       }
+      return state;
     }
 
-    case CHECK_ANSWER: {
+    case UPDATE_TEAM_MEMBER_STYLE: {
       const { lastAnswer } = action;
 
       let message;

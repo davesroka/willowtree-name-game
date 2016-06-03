@@ -1,6 +1,7 @@
 import ApiService from 'services/api-service.js';
 import { updateSettings } from 'actions/settings-actions';
-import { updateStatistics, addGameStarted } from 'actions/stats-actions';
+import * as StatsActions from 'actions/stats-actions';
+
 /*
  * action types
  */
@@ -19,10 +20,11 @@ export const UPDATE_TEAM_MEMBER_STYLE = 'UPDATE_TEAM_MEMBER_STYLE';
 export function init() {
   return dispatch => {
     dispatch(updateSettings());
-    dispatch(updateStatistics());
+    dispatch(StatsActions.initStatistics());
     ApiService.getTeamMembers()
-      .then(teamMembers => dispatch(receiveTeamMembers(teamMembers)))
-      .then(() => dispatch(startNewGame()))
+      .then(teamMembers =>
+        dispatch(receiveTeamMembers(teamMembers)))
+      .then(()=>dispatch(startNewGame()))
       .catch(error => console.error(error));
   };
 }
@@ -51,14 +53,14 @@ export function refreshGameChoices(teamMembers, numberOfChoices = 5) {
 
 export function startNewGame() {
   return dispatch => {
-    dispatch(addGameStarted());
+    dispatch(StatsActions.addRoundStarted());
     dispatch(refreshGameChoices());
   };
 }
 
 export function finishGame() {
   return dispatch => {
-    dispatch(addGameCompleted());
+    dispatch(StatsActions.addGameCompleted());
     dispatch(startNewGame());
   };
 }
@@ -66,11 +68,13 @@ export function finishGame() {
 export function checkAnswer(lastAnswer) {
   return dispatch => {
     if (lastAnswer.answer) {
-      dispatch(incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName, lastAnswer));
-      dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
-      setTimeout(refreshGameChoices, 3000);
+      dispatch(StatsActions.addCorrect(lastAnswer));
+      dispatch(StatsActions.addRoundCompleted());
+      setTimeout(()=> {
+        dispatch(refreshGameChoices());
+      }, 3000);
     } else {
-      dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName, lastAnswer));
+      dispatch(StatsActions.addIncorrect(lastAnswer));
     }
     dispatch(updateTeamMemberStyle(lastAnswer));
   };

@@ -26,9 +26,9 @@ class Settings extends React.Component {
 
   render() {
     const { numberOfChoices } = this.props;
-
+    // TODO Build out settings Display settings
     return (
-<div></div>
+      <div></div>
     );
   }
 }
