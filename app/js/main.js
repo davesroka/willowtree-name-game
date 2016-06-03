@@ -1,3 +1,4 @@
+import setGlobals from './globals.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
@@ -12,6 +13,7 @@ import NameGame from 'containers/name-game.js';
 import Settings from 'containers/settings.js';
 import '../scss/main.scss';
 
+setGlobals();
 const loggerMiddleWare = createLogger();
 
 const store = createStore(
