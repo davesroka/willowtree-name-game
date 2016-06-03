@@ -20,7 +20,10 @@ export function init() {
   return dispatch => {
     dispatch(updateSettings());
     dispatch(updateStatistics());
-    dispatch(fetchTeamMembers());
+    ApiService.getTeamMembers()
+      .then(teamMembers => dispatch(receiveTeamMembers(teamMembers)))
+      .then(() => dispatch(startNewGame()))
+      .catch(error => console.error(error));
   };
 }
 
@@ -46,27 +49,17 @@ export function refreshGameChoices(teamMembers, numberOfChoices = 5) {
   };
 }
 
-export function startNewGame(){
-  return dispatch =>{
+export function startNewGame() {
+  return dispatch => {
     dispatch(addGameStarted());
     dispatch(refreshGameChoices());
   };
 }
 
-export function finishGame(){
-  return dispatch =>{
+export function finishGame() {
+  return dispatch => {
     dispatch(addGameCompleted());
     dispatch(startNewGame());
-  }
-}
-export function fetchTeamMembers() {
-  return dispatch => {
-    ApiService.getTeamMembers()
-      .then(teamMembers => {
-        dispatch(receiveTeamMembers(teamMembers));
-        //dispatch(refreshGameChoices(teamMembers));
-      })
-      .catch(error => console.error(error));
   };
 }
 
