@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
 import LoadingSpinner from 'components/loading-spinner';
-import {init, checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
-import { updateSettings, addCorrect, addIncorrect, addGameStarted, addGameCompleted } from 'actions/settings-actions';
+import { init, checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
+import { updateSettings } from 'actions/settings-actions';
+import { incrementStat, STAT_NAMES, addCorrect, addIncorrect, addGameStarted, addGameCompleted } from 'actions/stats-actions';
 
 const mapStateToProps = (state) => {
-  const { teamMembers, choices, answer, lastAnswer, message } = state.nameGame;
+  const {teamMembers, choices, answer, lastAnswer, message} = state.nameGame;
 
   return {
     teamMembers,
@@ -33,6 +34,18 @@ const mapDispatchToProps = (dispatch) => {
     refreshGameChoices: () => {
       dispatch(refreshGameChoices());
     },
+    incrementStat : (statKey, incrementValue) =>{
+      dispatch(incrementStat(statKey, incrementValue));
+    },
+    addCorrect: (teamMember)=> {
+      dispatch(addCorrect(teamMember));
+    },
+    addIncorrect: (teamMember) => {
+      dispatch(addIncorrect(teamMember));
+    },
+    addGameCompleted: () => {
+      dispatch(addGameCompleted());
+    }
 
   };
 };
@@ -44,28 +57,28 @@ class NameGame extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lastAnswer, refreshGameChoices, addCorrect, addIncorrect, addGameCompleted } = nextProps;
+    const {lastAnswer, refreshGameChoices, addCorrect, addIncorrect, addGameCompleted, incrementStat} = nextProps;
 
-    if (lastAnswer) {
-      if (lastAnswer.answer) {
+    if (lastAnswer && this.props.lastAnswer !== nextProps.lastAnswer) {
+      if (lastAnswer.correct) {
         // TODO refactor this into 1 action
-        addCorrect(lastAnswer);
-        addGameCompleted();
+        incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName, lastAnswer);
+        incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName);
         setTimeout(refreshGameChoices, 3000);
 
-      } else {
-        addIncorrect(lastAnswer);
+      } else if (!lastAnswer.correct) {
+        incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName, lastAnswer);
+        // addIncorrect(lastAnswer);
       }
     }
   }
 
   render() {
-    const { choices, onTeamMemberClick, answer, message, statistics} = this.props;
+    const {choices, onTeamMemberClick, answer, message, statistics} = this.props;
 
     return (
       <div>
-        <h2>Who is {(answer) ? answer.name : null}?</h2>
-        <h3>{message}</h3>
+        <h2 class="text-center">Who is {(answer) ? answer.name : null}?</h2>
         {(choices)
           ? <TeamMemberList
           teamMembers={choices}
