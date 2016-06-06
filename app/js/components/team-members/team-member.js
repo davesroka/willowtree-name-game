@@ -6,7 +6,7 @@ const TeamMember = ({
   onClick,
   displayStyle,
 }) => (
-  <div className={`team-member ${displayStyle}`} onClick={() => onClick(name)}>
+  <div className={`team-member ${displayStyle} col-md-3`} onClick={() => onClick(name)}>
     <img src={url} alt={'team member'} />
     <strong className="name"> {name} </strong>
   </div>

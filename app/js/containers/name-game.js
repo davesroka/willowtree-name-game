@@ -50,14 +50,21 @@ class NameGame extends React.Component {
 
     return (
       <div>
-        <h2 class="text-center">Who is {(answer) ? answer.name : null}?</h2>
-        {(choices)
-          ? <TeamMemberList
-          teamMembers={choices}
-          onTeamMemberClick={onTeamMemberClick}
-        />
-          : <LoadingSpinner /> }
-        <StatisticsList statistics={statistics}/>
+        <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
+        <div className="row">
+          <div className="col-sm-12 col-md-2 well">
+            <StatisticsList statistics={statistics}/>
+          </div>
+          <div className="col-sm-12 col-md-10">
+            {(choices)
+              ? <TeamMemberList
+              teamMembers={choices}
+              onTeamMemberClick={onTeamMemberClick}
+            />
+              : <LoadingSpinner /> }
+          </div>
+        </div>
+
       </div>);
   }
 }

@@ -1,10 +1,4 @@
-import _ from 'lodash';
-
 export const UPDATE_STATISTICS = 'UPDATE_STATISTICS';
-export const ADD_CORRECT = 'ADD_CORRECT';
-export const ADD_INCORRECT = 'ADD_INCORRECT';
-export const ADD_GAME_STARTED = 'ADD_GAME_COMPLETED';
-export const ADD_GAME_COMPLETED = 'ADD_GAME_COMPLETED';
 export const INCREMENT_STAT = 'INCREMENT_STAT';
 
 export const STAT_NAMES = {
@@ -78,7 +72,15 @@ export function resetStatistics() {
   return dispatch => {
     localStorage.removeItem('statistics');
     dispatch(initStatistics());
-    // dispatch(notifyUser('Statistics Reset!'));
+  };
+}
+
+export function incrementStat(statKey, teamMember, incrementValue = 1) {
+  return {
+    type: INCREMENT_STAT,
+    statKey,
+    teamMember,
+    incrementValue,
   };
 }
 
@@ -97,16 +99,8 @@ export function addRoundStarted() {
 export function addRoundCompleted(roundTime) {
   return dispatch => {
     dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
-
     dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectname, roundTime));
   };
 }
 
-export function incrementStat(statKey, teamMember, incrementValue = 1) {
-  return {
-    type: INCREMENT_STAT,
-    statKey,
-    teamMember,
-    incrementValue,
-  };
-}
+
