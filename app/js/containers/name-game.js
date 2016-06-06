@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import { init, checkAnswer, fetchTeamMembers } from 'actions/name-game-actions';
+import { updateSettings } from 'actions/settings-actions';
+import { incrementStat } from 'actions/stats-actions';
+
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
 import LoadingSpinner from 'components/loading-spinner';
-import { init, checkAnswer, fetchTeamMembers, } from 'actions/name-game-actions';
-import { updateSettings } from 'actions/settings-actions';
-import { incrementStat, STAT_NAMES, addCorrect, addIncorrect, addGameStarted, addGameCompleted } from 'actions/stats-actions';
+
 
 const mapStateToProps = (state) => {
-  const {teamMembers, choices, answer, lastAnswer, message} = state.nameGame;
+  const { teamMembers, choices, answer, lastAnswer } = state.nameGame;
 
   return {
     teamMembers,
     choices,
     answer,
     lastAnswer,
-    message,
     statistics: state.statistics,
   };
 };
@@ -28,33 +30,23 @@ const mapDispatchToProps = (dispatch) => {
     onTeamMemberClick: (clickedTeamMember) => {
       dispatch(checkAnswer(clickedTeamMember));
     },
-    addCorrect: (teamMember)=> {
-      dispatch(addCorrect(teamMember));
-    },
-    addIncorrect: (teamMember) => {
-      dispatch(addIncorrect(teamMember));
-    },
-    addGameCompleted: () => {
-      dispatch(addGameCompleted());
-    }
-
   };
 };
 
 class NameGame extends React.Component {
+  static propTypes = {
+    init: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
     this.props.init();
   }
 
   componentWillReceiveProps(nextProps) {
-    const {lastAnswer, addCorrect, addIncorrect, addGameCompleted, incrementStat} = nextProps;
-
-
   }
 
   render() {
-    const {choices, onTeamMemberClick, answer, message, statistics} = this.props;
+    const { choices, onTeamMemberClick, answer, statistics } = this.props;
 
     return (
       <div>

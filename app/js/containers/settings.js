@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FormGroup,ControlLabel, FormControl, Checkbox } from 'react-bootstrap';
-import { Button, Icon } from 'react-materialize';
+import { Button } from 'react-materialize';
 import { updateSettings } from 'actions/settings-actions';
 import { resetStatistics } from 'actions/stats-actions';
 
@@ -26,16 +25,14 @@ const mapDispatchToProps = (dispatch) => {
 class Settings extends React.Component {
 
   componentDidMount() {
-    this.props.updateSettings();
   }
 
   render() {
-    const { numberOfChoices, resetStatistics } = this.props;
+    const { resetStatistics } = this.props;
     // TODO Build out settings Display settings
     return (
       <div>
         <Button waves="light" onClick={resetStatistics}>Reset Statistics</Button>
-        <Button node='a' waves='light'><Icon right>file_cloud</Icon>button</Button>
       </div>
     );
   }
