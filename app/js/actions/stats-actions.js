@@ -55,7 +55,14 @@ export function initStatistics() {
   console.log('localStatistics', statistics);
 
   if (!statistics) {
-    statistics = STATS_MODEL;
+    statistics = STATS_MODEL.map((statistic)=> {
+      const { objectName, displayName, value } = statistic;
+      return {
+        objectName,
+        displayName,
+        value,
+      };
+    });
   }
 
   console.log('statistics', statistics);

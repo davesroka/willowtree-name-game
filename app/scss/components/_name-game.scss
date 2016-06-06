@@ -8,6 +8,10 @@ $pulse-duration: 750ms;
   @extend .text-center, .col-sm-12, .col-md-offset-2, .col-md-10;
 }
 
+.hint-mode-btn-wrapper {
+  @extend .col-sm-4, .col-sm-offset-8, .col-md-1, .col-md-offset-10;
+}
+
 //.container {
 //  display:flex;
 //  flex-flow: row wrap;
