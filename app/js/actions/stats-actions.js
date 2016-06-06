@@ -34,6 +34,10 @@ export const STAT_NAMES = {
     objectName: 'totalIncorrect',
     displayName: 'Total Incorrect',
   },
+  TOTAL_TIME_TO_CORRECT: {
+    objectName: 'totalTimeToCorrect',
+    dispalyName: 'Total Time To Correct',
+  },
   AVG_TIME_TO_ANSWER: {
     objectName: 'avgTimeToAnswer',
     displayName: 'Average Time to Answer',
@@ -54,6 +58,7 @@ export const STATS_MODEL = {
   totalAnswered: 0,
   totalCorrect: 0,
   totalIncorrect: 0,
+  totalTimeToCorrect: 0.0,
   averageTimeToAnswer: 0,
   averageTimeToFinish: 0,
   byTeamMember: {},
@@ -64,11 +69,10 @@ export const STATS_MODEL = {
  */
 
 export function initStatistics() {
-
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
 
-  if (!statistics){
+  if (!statistics) {
     statistics = STATS_MODEL;
   }
 
@@ -77,6 +81,14 @@ export function initStatistics() {
   return {
     type: UPDATE_STATISTICS,
     statistics,
+  };
+}
+
+export function resetStatistics() {
+  return dispatch => {
+    localStorage.removeItem('statistics');
+    dispatch(initStatistics());
+    // dispatch(notifyUser('Statistics Reset!'));
   };
 }
 
@@ -92,8 +104,12 @@ export function addRoundStarted() {
   return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED.objectName));
 }
 
-export function addRoundCompleted() {
-  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
+export function addRoundCompleted(roundTime) {
+  return dispatch => {
+    dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
+
+    dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectname, roundTime));
+  }
 }
 
 export function incrementStat(statKey, teamMember, incrementValue = 1) {

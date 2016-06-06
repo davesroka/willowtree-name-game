@@ -20,7 +20,7 @@ export default function nameGameReducers(state = {}, action) {
 
     case REFRESH_GAME_CHOICES: {
       // TODO convert to config
-      const { numberOfChoices} = action;
+      const { startTime, numberOfChoices } = action;
       const { teamMembers, choices } = state;
 
       let nextChoices = [];
@@ -42,6 +42,7 @@ export default function nameGameReducers(state = {}, action) {
         return { ...state,
           choices: nextChoices,
           answer: nextChoices[answerIndex],
+          startTime: startTime,
         };
       }
       return state;

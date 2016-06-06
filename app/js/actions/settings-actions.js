@@ -26,18 +26,7 @@ export function updateSettings(settings) {
   };
 }
 
-export function fetchTeamMembers() {
-  return dispatch => {
-    ApiService.getTeamMembers()
-      .then(teamMembers => {
-        dispatch(receiveTeamMembers(teamMembers));
-        dispatch(refreshGameChoices(teamMembers));
-      })
-      .catch(error => console.error(error));
-  };
-}
-
-function saveSettings(settings) {
+export function saveSettings(settings) {
   return {
     type: UPDATE_SETTINGS,
     settings,

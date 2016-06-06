@@ -1,5 +1,5 @@
 import ApiService from 'services/api-service.js';
-import { updateSettings } from 'actions/settings-actions';
+import {updateSettings} from 'actions/settings-actions';
 import * as StatsActions from 'actions/stats-actions';
 
 /*
@@ -24,7 +24,7 @@ export function init() {
     ApiService.getTeamMembers()
       .then(teamMembers =>
         dispatch(receiveTeamMembers(teamMembers)))
-      .then(()=>dispatch(startNewGame()))
+      .then(() => dispatch(startNewGame()))
       .catch(error => console.error(error));
   };
 }
@@ -42,11 +42,11 @@ function receiveTeamMembers(teamMembers) {
   };
 }
 
-export function refreshGameChoices(teamMembers, numberOfChoices = 5) {
-
+export function refreshGameChoices(numberOfChoices = 5, ) {
+  const startTime = Date.now();
   return {
     type: REFRESH_GAME_CHOICES,
-    teamMembers,
+    startTime,
     numberOfChoices,
   };
 }
@@ -59,8 +59,9 @@ export function startNewGame() {
 }
 
 export function finishGame() {
-  return dispatch => {
-    dispatch(StatsActions.addGameCompleted());
+  return (dispatch, getState) => {
+    const roundTime = Date.now - getState.startTime;
+    dispatch(StatsActions.addGameCompleted(roundTime));
     dispatch(startNewGame());
   };
 }
