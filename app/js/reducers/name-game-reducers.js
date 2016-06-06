@@ -18,7 +18,8 @@ export default function nameGameReducers(state = {}, action) {
       return { ...state, teamMembers: action.teamMembers };
     // return Object.assign({}, state, {teamMembers: action.teamMembers})
 
-    case REFRESH_GAME_CHOICES: {
+    case REFRESH_GAME_CHOICES:
+    {
       // TODO convert to config
       const { startTime, numberOfChoices } = action;
       const { teamMembers, choices } = state;
@@ -39,7 +40,8 @@ export default function nameGameReducers(state = {}, action) {
         const answerIndex = getRandomInt(0, numberOfChoices);
         nextChoices[answerIndex].answer = true;
 
-        return { ...state,
+        return {
+          ...state,
           choices: nextChoices,
           answer: nextChoices[answerIndex],
           startTime: startTime,
@@ -48,7 +50,8 @@ export default function nameGameReducers(state = {}, action) {
       return state;
     }
 
-    case UPDATE_TEAM_MEMBER_STYLE: {
+    case UPDATE_TEAM_MEMBER_STYLE:
+    {
       const { lastAnswer } = action;
 
       let message;
@@ -60,14 +63,14 @@ export default function nameGameReducers(state = {}, action) {
         choices[index].displayStyle = 'team-member-correct';
         message = 'Correct!';
         lastAnswer.correct = true;
-      }
-      else {
+      } else {
         choices[index].displayStyle = 'team-member-incorrect';
         message = 'Incorrect!';
         lastAnswer.correct = false;
       }
 
-      return {...state,
+      return {
+        ...state,
         choices,
         message,
         lastAnswer,

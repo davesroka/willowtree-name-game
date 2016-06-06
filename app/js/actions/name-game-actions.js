@@ -2,21 +2,12 @@ import ApiService from 'services/api-service.js';
 import {updateSettings} from 'actions/settings-actions';
 import * as StatsActions from 'actions/stats-actions';
 
-/*
- * action types
- */
-
-export const INIT = 'INIT';
 export const REQUEST_TEAM_MEMBERS = 'REQUEST_TEAM_MEMBERS';
 export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
-export const CHECK_ANSWER = 'CHECK_ANSWER';
 export const UPDATE_TEAM_MEMBER_STYLE = 'UPDATE_TEAM_MEMBER_STYLE';
 
 
-/*
- * action creators
- */
 export function init() {
   return dispatch => {
     dispatch(updateSettings());

@@ -11,36 +11,40 @@ import {
 export default function statsReducers(state = {}, action) {
   switch (action.type) {
     case UPDATE_STATISTICS:
-      return {...state, ...action.statistics};
-    case ADD_CORRECT: {
+      return { ...state, ...action.statistics };
+    case ADD_CORRECT:
+    {
       return {
         ...state,
         totalCorrect: state.totalCorrect++,
       }
-
     }
-    case ADD_INCORRECT: {
+    case ADD_INCORRECT:
+    {
       return {
         ...state,
         totalIncorrect: state.totalIncorrect++,
       }
 
     }
-    case ADD_GAME_STARTED : {
+    case ADD_GAME_STARTED :
+    {
       return {
         ...state,
         totalRoundsStarted: state.totalRoundsStarted++,
       }
 
     }
-    case ADD_GAME_COMPLETED : {
+    case ADD_GAME_COMPLETED :
+    {
       return {
         ...state,
         totalRoundsCompleted: state.totalRoundsCompleted++,
       }
     }
-    case INCREMENT_STAT : {
-      const {statKey, teamMember, incrementValue} = action;
+    case INCREMENT_STAT :
+    {
+      const { statKey, teamMember, incrementValue } = action;
 
       const statistics = {
         ...state,

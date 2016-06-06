@@ -13,4 +13,9 @@ const TeamMemberList = ({ teamMembers, onTeamMemberClick }) => (
   </div>
 );
 
+TeamMemberList.propTypes = {
+  teamMembers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onTeamMemberClick: PropTypes.func.isRequired,
+};
+
 export default TeamMemberList;

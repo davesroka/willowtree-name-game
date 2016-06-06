@@ -1,8 +1,5 @@
 import _ from 'lodash';
 
-/*
- * Action Types
- */
 export const UPDATE_STATISTICS = 'UPDATE_STATISTICS';
 export const ADD_CORRECT = 'ADD_CORRECT';
 export const ADD_INCORRECT = 'ADD_INCORRECT';
@@ -10,9 +7,6 @@ export const ADD_GAME_STARTED = 'ADD_GAME_COMPLETED';
 export const ADD_GAME_COMPLETED = 'ADD_GAME_COMPLETED';
 export const INCREMENT_STAT = 'INCREMENT_STAT';
 
-/*
- * Other Constants
- * */
 export const STAT_NAMES = {
   TOTAL_ROUNDS_STARTED: {
     objectName: 'totalRoundsStarted',
@@ -64,10 +58,6 @@ export const STATS_MODEL = {
   byTeamMember: {},
 };
 
-/*
- * Action Creators
- */
-
 export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
@@ -109,7 +99,7 @@ export function addRoundCompleted(roundTime) {
     dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
 
     dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectname, roundTime));
-  }
+  };
 }
 
 export function incrementStat(statKey, teamMember, incrementValue = 1) {
