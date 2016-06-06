@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
 import LoadingSpinner from 'components/loading-spinner';
-import { init, checkAnswer, fetchTeamMembers, refreshGameChoices } from 'actions/name-game-actions';
+import { init, checkAnswer, fetchTeamMembers, } from 'actions/name-game-actions';
 import { updateSettings } from 'actions/settings-actions';
 import { incrementStat, STAT_NAMES, addCorrect, addIncorrect, addGameStarted, addGameCompleted } from 'actions/stats-actions';
 
@@ -28,15 +28,6 @@ const mapDispatchToProps = (dispatch) => {
     onTeamMemberClick: (clickedTeamMember) => {
       dispatch(checkAnswer(clickedTeamMember));
     },
-    fetchTeamMembers: () => {
-      dispatch(fetchTeamMembers());
-    },
-    refreshGameChoices: () => {
-      dispatch(refreshGameChoices());
-    },
-    incrementStat : (statKey, incrementValue) =>{
-      dispatch(incrementStat(statKey, incrementValue));
-    },
     addCorrect: (teamMember)=> {
       dispatch(addCorrect(teamMember));
     },
@@ -57,7 +48,7 @@ class NameGame extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {lastAnswer, refreshGameChoices, addCorrect, addIncorrect, addGameCompleted, incrementStat} = nextProps;
+    const {lastAnswer, addCorrect, addIncorrect, addGameCompleted, incrementStat} = nextProps;
 
 
   }
@@ -73,7 +64,7 @@ class NameGame extends React.Component {
           teamMembers={choices}
           onTeamMemberClick={onTeamMemberClick}
         />
-          : <LoadingSpinner />}
+          : <LoadingSpinner /> }
         <StatisticsList statistics={statistics}/>
       </div>);
   }
