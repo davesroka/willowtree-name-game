@@ -8,10 +8,10 @@ import { incrementStat } from 'actions/stats-actions';
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
 import LoadingSpinner from 'components/loading-spinner';
-
+import { Button } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
-  const { teamMembers, choices, answer, lastAnswer } = state.nameGame;
+  const { teamMembers, choices, answer, lastAnswer, hintMode } = state.nameGame;
 
   return {
     teamMembers,
@@ -47,10 +47,12 @@ class NameGame extends React.Component {
 
   render() {
     const { choices, onTeamMemberClick, answer, statistics } = this.props;
+    let hintModeButton = <Button bsSize="small" bsStyle=>Hint Mode: Off</Button>;
 
     return (
       <div>
         <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
+        <Button bsSize="small">Hint Mode: Off</Button>
         <div className="row">
           <div className="col-sm-12 col-md-2 well">
             <StatisticsList statistics={statistics}/>

@@ -46,10 +46,8 @@ export const STATS_MODEL = {
   totalAnswered: 0,
   totalCorrect: 0,
   totalIncorrect: 0,
-  totalTimeToCorrect: 0.0,
-  averageTimeToAnswer: 0,
+  totalTimeToCorrect: 0,
   averageTimeToFinish: 0,
-  byTeamMember: {},
 };
 
 export function initStatistics() {
@@ -71,6 +69,7 @@ export function initStatistics() {
 export function resetStatistics() {
   return dispatch => {
     localStorage.removeItem('statistics');
+    console.log(localStorage.getObject('statisitcs'));
     dispatch(initStatistics());
   };
 }
@@ -99,7 +98,7 @@ export function addRoundStarted() {
 export function addRoundCompleted(roundTime) {
   return dispatch => {
     dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
-    dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectname, roundTime));
+    dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectName, null, roundTime));
   };
 }
 

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const StatisticsList = ({ statistics }) => {
+
   let statList = [];
 
   console.log('statistics', statistics);

@@ -51,9 +51,12 @@ export function startNewGame() {
 
 export function finishGame() {
   return (dispatch, getState) => {
-    const roundTime = Date.now - getState.startTime;
-    dispatch(StatsActions.addGameCompleted(roundTime));
-    dispatch(startNewGame());
+    const roundTime = (Date.now() - getState().nameGame.startTime)/1000;
+    console.log('roundTime', roundTime);
+    dispatch(StatsActions.addRoundCompleted(roundTime));
+    setTimeout(()=> {
+      dispatch(startNewGame());
+    }, 3000);
   };
 }
 
@@ -61,10 +64,7 @@ export function checkAnswer(lastAnswer) {
   return dispatch => {
     if (lastAnswer.answer) {
       dispatch(StatsActions.addCorrect(lastAnswer));
-      dispatch(StatsActions.addRoundCompleted());
-      setTimeout(()=> {
-        dispatch(refreshGameChoices());
-      }, 3000);
+      dispatch(finishGame());
     } else {
       dispatch(StatsActions.addIncorrect(lastAnswer));
     }
