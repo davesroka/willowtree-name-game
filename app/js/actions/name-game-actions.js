@@ -1,5 +1,5 @@
-import ApiService from 'services/api-service.js';
-import {updateSettings} from 'actions/settings-actions';
+import ApiService from 'services/api-service';
+import { updateSettings } from 'actions/settings-actions';
 import * as StatsActions from 'actions/stats-actions';
 
 export const REQUEST_TEAM_MEMBERS = 'REQUEST_TEAM_MEMBERS';
@@ -33,7 +33,7 @@ function receiveTeamMembers(teamMembers) {
   };
 }
 
-export function refreshGameChoices(numberOfChoices = 5, ) {
+export function refreshGameChoices(numberOfChoices = 5,) {
   const startTime = Date.now();
   return {
     type: REFRESH_GAME_CHOICES,

@@ -19,7 +19,7 @@ const StatisticsList = ({ statistics }) => {
 };
 
 StatisticsList.propTypes = {
-  statistics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  statistics: PropTypes.object.isRequired,
 };
 
 export default StatisticsList;

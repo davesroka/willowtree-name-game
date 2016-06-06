@@ -12,14 +12,14 @@ const App = ({ children }) => (
           </Link>
         </Navbar.Brand>
       </Navbar.Header>
-      <Navbar.Collapse >
+      <Navbar.Collapse>
         <Nav pullRight>
           <NavItem eventKey={1} href="#/settings">Settings</NavItem>
         </Nav>
       </Navbar.Collapse>
       <Navbar.Toggle pullRight />
     </Navbar>
-    <div className="well well-lg">
+    <div>
       {children}
     </div>
   </div>

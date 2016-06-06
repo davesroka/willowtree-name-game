@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
-import setGlobals from './globals.js';
+import setGlobals from './globals';
 import configureStore from './configure-store';
 
 import '../scss/main.scss';
-import App from 'components/app.js';
-import NameGame from 'containers/name-game.js';
-import Settings from 'containers/settings.js';
+import App from 'components/app';
+import NameGame from 'containers/name-game';
+import Settings from 'containers/settings';
 
 setGlobals();
 
