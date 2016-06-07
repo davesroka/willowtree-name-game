@@ -15,10 +15,12 @@ export default function statsReducers(state = {}, action) {
     case INCREMENT_STAT :
     {
       const { statKey, teamMember, incrementValue } = action;
+      let value = state[statKey] || 0;
+      value+=incrementValue;
 
       const statistics = {
         ...state,
-        [statKey]: state[statKey] + incrementValue,
+        [statKey]: value,
       };
 
       localStorage.setObject('statistics', statistics);

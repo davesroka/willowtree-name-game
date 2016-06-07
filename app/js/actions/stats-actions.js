@@ -42,28 +42,22 @@ export const STAT_NAMES = {
   },
 };
 
-export const STATS_MODEL = {
-  totalRoundsStarted: 0,
-  totalRoundsCompleted: 0,
-  totalAnswered: 0,
-  totalCorrect: 0,
-  totalIncorrect: 0,
-  totalTimeToCorrect: 0,
-  averageTimeToFinish: 0,
-};
+function receiveStatistics(statistics) {
+  return {
+    type: UPDATE_STATISTICS,
+    statistics,
+  };
+}
 
 export function fetchStatistics() {
   return dispatch => {
     ApiService.fetchStatistics()
-      .then(statistics=>{
-        return {
-          type: UPDATE_STATISTICS,
-          statistics,
-        };
-      })
-  }
-
+      .then(statistics=> {
+        dispatch(receiveStatistics(statistics));
+      });
+  };
 }
+
 export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
@@ -94,6 +88,7 @@ export function resetStatistics() {
     dispatch(initStatistics());
   };
 }
+
 
 export function incrementStat(statKey, teamMember, incrementValue = 1) {
   return {
