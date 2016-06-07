@@ -68,18 +68,18 @@ export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
 
-  if (!statistics) {
-    statistics = STATS_MODEL.map((statistic)=> {
-      const {objectName, displayName, value} = statistic;
-      return {
-        objectName,
-        displayName,
-        value,
-      };
-    });
-  }
-
-  console.log('statistics', statistics);
+  // if (!statistics) {
+  //   statistics = STAT_NAMES.map((statistic)=> {
+  //     const { objectName, displayName } = statistic;
+  //     return {
+  //       objectName,
+  //       displayName,
+  //       value: 0,
+  //     };
+  //   });
+  // }
+  //
+  // console.log('statistics', statistics);
 
   return {
     type: UPDATE_STATISTICS,
