@@ -4,7 +4,8 @@
   "description": "Willowtree Name Game",
   "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --inline --content-base app/",
+    "prestart": "npm install",
+    "start": "bin/json-server db.json && bin/webpack-dev-server --progress --colors --inline --content-base app/",
     "test": "",
     "lint": "eslint . --ext .js --ignore-path .gitignore --cache"
   },
