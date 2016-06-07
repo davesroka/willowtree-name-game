@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { init, checkAnswer, fetchTeamMembers, enableHintMode } from 'actions/name-game-actions';
+import { init, checkAnswer, fetchTeamMembers, toggleHintMode } from 'actions/name-game-actions';
 import { updateSettings } from 'actions/settings-actions';
 import { incrementStat } from 'actions/stats-actions';
 
@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
     choices,
     answer,
     lastAnswer,
+    hintMode,
     statistics: state.statistics,
   };
 };
@@ -30,8 +31,8 @@ const mapDispatchToProps = (dispatch) => {
     onTeamMemberClick: (clickedTeamMember) => {
       dispatch(checkAnswer(clickedTeamMember));
     },
-    enableHintMode: () => {
-      dispatch(enableHintMode());
+    toggleHintMode: () => {
+      dispatch(toggleHintMode());
     }
 
   };
@@ -50,16 +51,15 @@ class NameGame extends React.Component {
   }
 
   render() {
-    const { choices, answer, statistics, hintMode, enableHintMode, onTeamMemberClick } = this.props;
-
-    let hintModeButtonStyle = (hintMode) ? 'primary' : 'default';
-    let hintModeButtonText = `Hint Mode: ${(hintMode) ? 'on' : 'off'}`;
+    const { choices, answer, statistics, hintMode, toggleHintMode, onTeamMemberClick } = this.props;
 
     return (
       <div>
           <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
         <div className="hint-mode-btn-wrapper">
-          <Button bsSize="xsmall" bsStyle={hintModeButtonStyle} onClick={enableHintMode}>{hintModeButtonText}</Button>
+          <Button bsSize="xsmall" bsStyle={ (hintMode) ? 'primary' : 'default'} onClick={toggleHintMode}>
+            {`Hint Mode: ${(hintMode) ? 'on' : 'off'}`}
+          </Button>
         </div>
         <div className="row">
           <div className="col-sm-12 col-md-2 well">

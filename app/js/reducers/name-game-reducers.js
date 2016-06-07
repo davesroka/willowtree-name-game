@@ -4,9 +4,11 @@ import {
   RECEIVE_TEAM_MEMBERS,
   REFRESH_GAME_CHOICES,
   UPDATE_TEAM_MEMBER_STYLE,
+  TOGGLE_HINT_MODE,
+  FADE_OUT_CHOICE,
 } from 'actions/name-game-actions';
 
-function getRandomInt(min, max) {
+export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 export default function nameGameReducers(state = {}, action) {
@@ -76,6 +78,16 @@ export default function nameGameReducers(state = {}, action) {
         lastAnswer,
       }
     }
+    case TOGGLE_HINT_MODE:
+      return {
+        ...state,
+        hintMode: !state.hintMode,
+      };
+    case FADE_OUT_CHOICE:
+      return {
+        ...state,
+        teamMember: { ...teamMember, fadeOut },
+      };
     default:
       return state;
   }
