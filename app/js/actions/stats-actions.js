@@ -1,3 +1,5 @@
+import ApiService from 'services/api-service';
+
 export const UPDATE_STATISTICS = 'UPDATE_STATISTICS';
 export const INCREMENT_STAT = 'INCREMENT_STAT';
 
@@ -50,13 +52,25 @@ export const STATS_MODEL = {
   averageTimeToFinish: 0,
 };
 
+export function fetchStatistics() {
+  return dispatch => {
+    ApiService.fetchStatistics()
+      .then(statistics=>{
+        return {
+          type: UPDATE_STATISTICS,
+          statistics,
+        };
+      })
+  }
+
+}
 export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
 
   if (!statistics) {
     statistics = STATS_MODEL.map((statistic)=> {
-      const { objectName, displayName, value } = statistic;
+      const {objectName, displayName, value} = statistic;
       return {
         objectName,
         displayName,

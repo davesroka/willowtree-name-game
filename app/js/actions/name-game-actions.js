@@ -11,8 +11,8 @@ export const UPDATE_TEAM_MEMBER_STYLE = 'UPDATE_TEAM_MEMBER_STYLE';
 export function init() {
   return dispatch => {
     dispatch(updateSettings());
-    dispatch(StatsActions.initStatistics());
-    ApiService.getTeamMembers()
+    dispatch(StatsActions.fetchStatistics());
+    ApiService.fetchTeamMembers()
       .then(teamMembers =>
         dispatch(receiveTeamMembers(teamMembers)))
       .then(() => dispatch(startNewGame()))
