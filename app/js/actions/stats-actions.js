@@ -1,18 +1,8 @@
-import _ from 'lodash';
+import ApiService from 'services/api-service';
 
-/*
- * Action Types
- */
 export const UPDATE_STATISTICS = 'UPDATE_STATISTICS';
-export const ADD_CORRECT = 'ADD_CORRECT';
-export const ADD_INCORRECT = 'ADD_INCORRECT';
-export const ADD_GAME_STARTED = 'ADD_GAME_COMPLETED';
-export const ADD_GAME_COMPLETED = 'ADD_GAME_COMPLETED';
 export const INCREMENT_STAT = 'INCREMENT_STAT';
 
-/*
- * Other Constants
- * */
 export const STAT_NAMES = {
   TOTAL_ROUNDS_STARTED: {
     objectName: 'totalRoundsStarted',
@@ -52,31 +42,38 @@ export const STAT_NAMES = {
   },
 };
 
-export const STATS_MODEL = {
-  totalRoundsStarted: 0,
-  totalRoundsCompleted: 0,
-  totalAnswered: 0,
-  totalCorrect: 0,
-  totalIncorrect: 0,
-  totalTimeToCorrect: 0.0,
-  averageTimeToAnswer: 0,
-  averageTimeToFinish: 0,
-  byTeamMember: {},
-};
+function receiveStatistics(statistics) {
+  return {
+    type: UPDATE_STATISTICS,
+    statistics,
+  };
+}
 
-/*
- * Action Creators
- */
+export function fetchStatistics() {
+  return dispatch => {
+    ApiService.fetchStatistics()
+      .then(statistics=> {
+        dispatch(receiveStatistics(statistics));
+      });
+  };
+}
 
 export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
 
-  if (!statistics) {
-    statistics = STATS_MODEL;
-  }
-
-  console.log('statistics', statistics);
+  // if (!statistics) {
+  //   statistics = STAT_NAMES.map((statistic)=> {
+  //     const { objectName, displayName } = statistic;
+  //     return {
+  //       objectName,
+  //       displayName,
+  //       value: 0,
+  //     };
+  //   });
+  // }
+  //
+  // console.log('statistics', statistics);
 
   return {
     type: UPDATE_STATISTICS,
@@ -87,8 +84,18 @@ export function initStatistics() {
 export function resetStatistics() {
   return dispatch => {
     localStorage.removeItem('statistics');
+    console.log(localStorage.getObject('statisitcs'));
     dispatch(initStatistics());
-    // dispatch(notifyUser('Statistics Reset!'));
+  };
+}
+
+
+export function incrementStat(statKey, teamMember, incrementValue = 1) {
+  return {
+    type: INCREMENT_STAT,
+    statKey,
+    teamMember,
+    incrementValue,
   };
 }
 
@@ -107,16 +114,8 @@ export function addRoundStarted() {
 export function addRoundCompleted(roundTime) {
   return dispatch => {
     dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
-
-    dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectname, roundTime));
-  }
-}
-
-export function incrementStat(statKey, teamMember, incrementValue = 1) {
-  return {
-    type: INCREMENT_STAT,
-    statKey,
-    teamMember,
-    incrementValue,
+    dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectName, null, roundTime));
   };
 }
+
+

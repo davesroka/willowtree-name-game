@@ -1,31 +1,19 @@
-import setGlobals from './globals.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
+import setGlobals from './globals';
+import configureStore from './configure-store';
 
-import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import createLogger from 'redux-logger';
-import rootReducer from './reducers';
-import App from 'components/app.js';
-import NameGame from 'containers/name-game.js';
-import Settings from 'containers/settings.js';
 import '../scss/main.scss';
+import App from 'components/app';
+import NameGame from 'containers/name-game';
+import Settings from 'containers/settings';
 
 setGlobals();
-const loggerMiddleWare = createLogger();
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunkMiddleware,
-    loggerMiddleWare
-  )
-);
 
 ReactDOM.render((
-  <Provider store={store}>
+  <Provider store={configureStore()}>
     <Router history={hashHistory}>
       <Route path="/" component={App}>
         <IndexRedirect to="namegame" />

@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const StatisticsList = ({
-  statistics,
-  }) => {
+const StatisticsList = ({ statistics }) => {
+
   let statList = [];
 
   console.log('statistics', statistics);
@@ -18,6 +17,10 @@ const StatisticsList = ({
       {statList}
     </ul>
   );
+};
+
+StatisticsList.propTypes = {
+  statistics: PropTypes.object.isRequired,
 };
 
 export default StatisticsList;

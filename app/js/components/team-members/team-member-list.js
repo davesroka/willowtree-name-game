@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import TeamMember from 'components/team-members/team-member';
 
 const TeamMemberList = ({ teamMembers, onTeamMemberClick }) => (
-  <div className="container">
+  <div>
     {teamMembers.map(teamMember =>
       <TeamMember
         key={teamMember.name}
@@ -12,5 +12,10 @@ const TeamMemberList = ({ teamMembers, onTeamMemberClick }) => (
     )}
   </div>
 );
+
+TeamMemberList.propTypes = {
+  teamMembers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onTeamMemberClick: PropTypes.func.isRequired,
+};
 
 export default TeamMemberList;

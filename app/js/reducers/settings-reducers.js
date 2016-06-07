@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   UPDATE_SETTINGS,
 } from 'actions/settings-actions';
@@ -6,7 +5,7 @@ import {
 export default function settingsReducers(state = {}, action) {
   switch (action.type) {
     case UPDATE_SETTINGS:
-      return {...state, ...action.settings};
+      return { ...state, ...action.settings };
     default:
       return state;
   }

@@ -1,14 +1,21 @@
 $base-line-height: 24px;
-$white: rgb(255,255,255);
+$white: rgb(255, 255, 255);
 $off-white: rgba($white, 0.2);
 $spin-duration: 1s;
 $pulse-duration: 750ms;
 
-.container {
-  display:flex;
-  flex-flow: row wrap;
+.question {
+  @extend .text-center, .col-sm-12, .col-md-offset-2, .col-md-10;
 }
 
+.hint-mode-btn-wrapper {
+  @extend .col-sm-4, .col-sm-offset-8, .col-md-1, .col-md-offset-10;
+}
+
+//.container {
+//  display:flex;
+//  flex-flow: row wrap;
+//}
 
 /* http://codepen.io/alanshortis/pen/eJLVXr */
 @keyframes pulse {
@@ -16,6 +23,7 @@ $pulse-duration: 750ms;
     background: $white;
   }
 }
+
 .loading-pulse {
   position: relative;
   width: ($base-line-height / 4);
