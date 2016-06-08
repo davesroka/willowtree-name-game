@@ -1,30 +1,21 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  init,
-  checkAnswer,
-  fetchTeamMembers,
-  toggleHintMode,
-  startHintModeTimer,
-  toggleMattMode
-} from 'actions/name-game-actions';
+import { init, checkAnswer, toggleHintMode, toggleMattMode } from 'actions/name-game-actions';
 import { updateSettings } from 'actions/settings-actions';
 import { incrementStat } from 'actions/stats-actions';
 
+import OptionButtons from 'components/option-buttons';
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
-import LoadingSpinner from 'components/loading-spinner';
-import { Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
-  const { teamMembers, choices, answer, lastAnswer, hintMode, mattMode } = state.nameGame;
+  const { teamMembers, choices, answer, hintMode, mattMode } = state.nameGame;
 
   return {
     teamMembers,
     choices,
     answer,
-    lastAnswer,
     hintMode,
     mattMode,
     statistics: state.statistics,
@@ -41,9 +32,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     toggleHintMode: () => {
       dispatch(toggleHintMode());
-    },
-    startHintModeTimer: ()=> {
-      dispatch(startHintModeTimer());
     },
     toggleMattMode: ()=> {
       dispatch(toggleMattMode());
@@ -78,35 +66,26 @@ class NameGame extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="container-fluid">
         <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
-        <ButtonToolbar className="row">
-          <ButtonGroup className="pull-right">
-            <Button bsSize="xsmall" bsStyle={ (hintMode) ? 'success' : 'default'} onClick={toggleHintMode}>
-              {`Hint Mode: ${(hintMode) ? 'on' : 'off'}`}
-            </Button>
-          </ButtonGroup>
-          <ButtonGroup className="pull-right">
-            <Button bsSize="xsmall" bsStyle={ (mattMode) ? 'success' : 'default'} onClick={toggleMattMode}>
-              {`Matt Mode: ${(mattMode) ? 'on' : 'off'}`}
-            </Button>
-          </ButtonGroup>
-        </ButtonToolbar>
-
+        <OptionButtons
+          hintMode={hintMode}
+          mattMode={mattMode}
+          onHintModeClick={toggleHintMode}
+          onMattModeClick={toggleMattMode}
+        />
         <div className="row">
-
-          <StatisticsList statistics={statistics}/>
-          <div className="team-member-list">
-            {(choices)
-              ? <TeamMemberList
-              teamMembers={choices}
-              onTeamMemberClick={onTeamMemberClick}
-            />
-              : <LoadingSpinner /> }
-          </div>
+          <StatisticsList
+            statistics={statistics}
+          />
+          <TeamMemberList
+            teamMembers={choices}
+            onTeamMemberClick={onTeamMemberClick}
+          />
         </div>
 
-      </div>);
+      </div>
+    );
   }
 }
 
