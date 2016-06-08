@@ -13,9 +13,11 @@ const StatisticsList = ({ statistics }) => {
   }
 
   return (
-    <ul>
-      {statList}
-    </ul>
+    <div className="statistics-list">
+      <ul>
+        {statList}
+      </ul>
+    </div>
   );
 };
 

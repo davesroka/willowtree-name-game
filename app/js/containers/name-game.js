@@ -1,14 +1,21 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { init, checkAnswer, fetchTeamMembers, toggleHintMode, startHintModeTimer } from 'actions/name-game-actions';
+import {
+  init,
+  checkAnswer,
+  fetchTeamMembers,
+  toggleHintMode,
+  startHintModeTimer,
+  toggleMattMode
+} from 'actions/name-game-actions';
 import { updateSettings } from 'actions/settings-actions';
 import { incrementStat } from 'actions/stats-actions';
 
 import TeamMemberList from 'components/team-members/team-member-list';
 import StatisticsList from 'components/statistics-list';
 import LoadingSpinner from 'components/loading-spinner';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
   const { teamMembers, choices, answer, lastAnswer, hintMode, mattMode } = state.nameGame;
