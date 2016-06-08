@@ -92,14 +92,18 @@ export function startHintModeTimer() {
   return (dispatch, getState) => {
     const { choices } = getState().nameGame;
     let teamMemberToFade;
-
-    while (!teamMemberToFade) {
-      const index = getRandomInt(0, choices.length);
-      if (!choices[index].answer) {
-        teamMemberToFade = choices[index];
+    const remainingChoices = choices.filter(choice=>!choice.faded);
+    console.log('remainingChoices', remainingChoices);
+    if (remainingChoices.length > 1) {
+      while (!teamMemberToFade) {
+        const index = getRandomInt(0, choices.length);
+        if (!choices[index].answer) {
+          teamMemberToFade = choices[index];
+        }
       }
+      setTimeout(dispatch(fadeOutChoice(teamMemberToFade)), 3000);
     }
-    setTimeout(dispatch(fadeOutChoice(teamMemberToFade)), 3000);
+
   };
 }
 
@@ -109,8 +113,11 @@ export function fadeOutChoice(teamMember) {
       type: FADE_OUT_CHOICE,
       teamMember,
     });
+    // dispatch(startHintModeTimer());
   };
 }
-export function toggleMattMode(){
-  return dispatch =>
+export function toggleMattMode() {
+  return dispatch => {
+
+  };
 }

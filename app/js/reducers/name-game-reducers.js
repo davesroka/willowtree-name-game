@@ -20,8 +20,7 @@ export default function nameGameReducers(state = {}, action) {
       return { ...state, teamMembers: action.teamMembers };
     // return Object.assign({}, state, {teamMembers: action.teamMembers})
 
-    case REFRESH_GAME_CHOICES:
-    {
+    case REFRESH_GAME_CHOICES: {
       // TODO convert to config
       const { startTime, numberOfChoices } = action;
       const { teamMembers, choices } = state;
@@ -52,8 +51,7 @@ export default function nameGameReducers(state = {}, action) {
       return state;
     }
 
-    case UPDATE_TEAM_MEMBER_STYLE:
-    {
+    case UPDATE_TEAM_MEMBER_STYLE: {
       const { lastAnswer } = action;
 
       let message;
@@ -86,7 +84,10 @@ export default function nameGameReducers(state = {}, action) {
     case FADE_OUT_CHOICE:
       return {
         ...state,
-        teamMember: { ...teamMember, fadeOut },
+        teamMember: {
+          ...state.teamMember,
+          faded: true
+        },
       };
     default:
       return state;
