@@ -8,6 +8,7 @@ export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
 export const UPDATE_TEAM_MEMBER_STYLE = 'UPDATE_TEAM_MEMBER_STYLE';
 export const TOGGLE_HINT_MODE = 'TOGGLE_HINT_MODE';
+export const TOGGLE_MATT_MODE = 'TOGGLE_MATT_MODE';
 export const FADE_OUT_CHOICE = 'FADE_OUT_CHOICE';
 
 
@@ -121,6 +122,7 @@ export function fadeOutChoice(indexToFade) {
 }
 export function toggleMattMode() {
   return dispatch => {
-
+    dispatch({ type: TOGGLE_MATT_MODE });
+    dispatch(refreshGameChoices());
   };
 }

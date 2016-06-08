@@ -11,7 +11,7 @@ import LoadingSpinner from 'components/loading-spinner';
 import { Button } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
-  const { teamMembers, choices, answer, lastAnswer, hintMode } = state.nameGame;
+  const { teamMembers, choices, answer, lastAnswer, hintMode, mattMode } = state.nameGame;
 
   return {
     teamMembers,
@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
     answer,
     lastAnswer,
     hintMode,
+    mattMode,
     statistics: state.statistics,
   };
 };
@@ -34,8 +35,11 @@ const mapDispatchToProps = (dispatch) => {
     toggleHintMode: () => {
       dispatch(toggleHintMode());
     },
-    startHintModeTimer: ()=>{
+    startHintModeTimer: ()=> {
       dispatch(startHintModeTimer());
+    },
+    toggleMattMode: ()=> {
+      dispatch(toggleMattMode());
     }
 
   };
@@ -55,21 +59,37 @@ class NameGame extends React.Component {
   }
 
   render() {
-    const { choices, answer, statistics, hintMode, toggleHintMode, onTeamMemberClick } = this.props;
+    const {
+      choices,
+      answer,
+      statistics,
+      hintMode,
+      mattMode,
+      toggleHintMode,
+      toggleMattMode,
+      onTeamMemberClick,
+    } = this.props;
 
     return (
       <div>
         <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
-        <div className="hint-mode-btn-wrapper">
-          <Button bsSize="xsmall" bsStyle={ (hintMode) ? 'primary' : 'default'} onClick={toggleHintMode}>
-            {`Hint Mode: ${(hintMode) ? 'on' : 'off'}`}
-          </Button>
-        </div>
+        <ButtonToolbar className="row">
+          <ButtonGroup className="pull-right">
+            <Button bsSize="xsmall" bsStyle={ (hintMode) ? 'success' : 'default'} onClick={toggleHintMode}>
+              {`Hint Mode: ${(hintMode) ? 'on' : 'off'}`}
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup className="pull-right">
+            <Button bsSize="xsmall" bsStyle={ (mattMode) ? 'success' : 'default'} onClick={toggleMattMode}>
+              {`Matt Mode: ${(mattMode) ? 'on' : 'off'}`}
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+
         <div className="row">
-          <div className="col-sm-12 col-md-2 well">
-            <StatisticsList statistics={statistics}/>
-          </div>
-          <div className="col-sm-12 col-md-10">
+
+          <StatisticsList statistics={statistics}/>
+          <div className="team-member-list">
             {(choices)
               ? <TeamMemberList
               teamMembers={choices}

@@ -5,8 +5,16 @@ import {
   REFRESH_GAME_CHOICES,
   UPDATE_TEAM_MEMBER_STYLE,
   TOGGLE_HINT_MODE,
+  TOGGLE_MATT_MODE,
   FADE_OUT_CHOICE,
 } from 'actions/name-game-actions';
+
+export const matts = [
+  "Matt",
+  "matt",
+  "Mat",
+  "mat",
+];
 
 export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -20,7 +28,8 @@ export default function nameGameReducers(state = {}, action) {
       return { ...state, teamMembers: action.teamMembers };
     // return Object.assign({}, state, {teamMembers: action.teamMembers})
 
-    case REFRESH_GAME_CHOICES: {
+    case REFRESH_GAME_CHOICES:
+    {
       // TODO convert to config
       const { startTime, numberOfChoices } = action;
       const { teamMembers, choices } = state;
@@ -28,13 +37,25 @@ export default function nameGameReducers(state = {}, action) {
       let nextChoices = [];
 
       if (teamMembers) {
-
         while (nextChoices.length < numberOfChoices) {
           const randomIndex = getRandomInt(0, teamMembers.length);
           let teamMember = teamMembers[randomIndex];
 
           if (!_.includes(choices, teamMember) && !_.includes(nextChoices, teamMember)) {
-            nextChoices.push(teamMember);
+            if (state.mattMode) {
+              for (let name of matts) {
+                var nameArray = teamMember.name.split(space);
+                if (nameArray[0].includes(name)) {
+                  nextChoices.push(teamMember);
+                  break;
+                }
+              }
+
+            }
+            else {
+              nextChoices.push(teamMember);
+            }
+
           }
         }
 
@@ -51,7 +72,8 @@ export default function nameGameReducers(state = {}, action) {
       return state;
     }
 
-    case UPDATE_TEAM_MEMBER_STYLE: {
+    case UPDATE_TEAM_MEMBER_STYLE:
+    {
       const { lastAnswer } = action;
 
       let message;
@@ -91,6 +113,11 @@ export default function nameGameReducers(state = {}, action) {
         choices: newChoices,
       };
     }
+    case TOGGLE_MATT_MODE:
+      return {
+        ...state,
+        mattMode: !state.mattMode,
+      };
     default:
       return state;
   }
