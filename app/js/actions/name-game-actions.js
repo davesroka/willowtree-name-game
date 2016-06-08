@@ -2,6 +2,7 @@ import ApiService from 'services/api-service';
 import { updateSettings } from 'actions/settings-actions';
 import * as StatsActions from 'actions/stats-actions';
 import { getRandomInt } from 'reducers/name-game-reducers';
+import _ from 'lodash';
 
 export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
@@ -91,29 +92,31 @@ export function toggleHintMode() {
 export function startHintModeTimer() {
   return (dispatch, getState) => {
     const { choices } = getState().nameGame;
-    let teamMemberToFade;
-    const remainingChoices = choices.filter(choice=>!choice.faded);
+    let indexToFade;
+    const remainingChoices = choices.filter(choice=>{
+      return (!choice.faded && !choice.displayStyle);
+    });
     console.log('remainingChoices', remainingChoices);
     if (remainingChoices.length > 1) {
-      while (!teamMemberToFade) {
-        const index = getRandomInt(0, choices.length);
-        if (!choices[index].answer) {
-          teamMemberToFade = choices[index];
+      while (!indexToFade) {
+        const index = getRandomInt(0, remainingChoices.length);
+        if (!remainingChoices[index].answer) {
+          indexToFade = index;
         }
       }
-      setTimeout(dispatch(fadeOutChoice(teamMemberToFade)), 3000);
+      setTimeout(()=>dispatch(fadeOutChoice(indexToFade)), 4000);
     }
 
   };
 }
 
-export function fadeOutChoice(teamMember) {
+export function fadeOutChoice(indexToFade) {
   return dispatch => {
     dispatch({
       type: FADE_OUT_CHOICE,
-      teamMember,
+      indexToFade,
     });
-    // dispatch(startHintModeTimer());
+    dispatch(startHintModeTimer());
   };
 }
 export function toggleMattMode() {

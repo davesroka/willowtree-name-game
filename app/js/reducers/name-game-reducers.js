@@ -82,13 +82,15 @@ export default function nameGameReducers(state = {}, action) {
         hintMode: !state.hintMode,
       };
     case FADE_OUT_CHOICE:
+    {
+      let newChoices = [...state.choices];
+      newChoices[action.indexToFade].faded = true;
+
       return {
         ...state,
-        teamMember: {
-          ...state.teamMember,
-          faded: true
-        },
+        choices: newChoices,
       };
+    }
     default:
       return state;
   }

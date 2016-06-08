@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { init, checkAnswer, fetchTeamMembers, toggleHintMode } from 'actions/name-game-actions';
+import { init, checkAnswer, fetchTeamMembers, toggleHintMode, startHintModeTimer } from 'actions/name-game-actions';
 import { updateSettings } from 'actions/settings-actions';
 import { incrementStat } from 'actions/stats-actions';
 
@@ -33,6 +33,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     toggleHintMode: () => {
       dispatch(toggleHintMode());
+    },
+    startHintModeTimer: ()=>{
+      dispatch(startHintModeTimer());
     }
 
   };
@@ -48,6 +51,7 @@ class NameGame extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
   }
 
   render() {
@@ -55,7 +59,7 @@ class NameGame extends React.Component {
 
     return (
       <div>
-          <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
+        <h1 className="question">Who is {(answer) ? answer.name : null}?</h1>
         <div className="hint-mode-btn-wrapper">
           <Button bsSize="xsmall" bsStyle={ (hintMode) ? 'primary' : 'default'} onClick={toggleHintMode}>
             {`Hint Mode: ${(hintMode) ? 'on' : 'off'}`}
