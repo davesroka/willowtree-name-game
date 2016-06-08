@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react';
 
 const StatisticsList = ({ statistics }) => {
-
   let statList = [];
 
   console.log('statistics', statistics);
 
   for (let prop in statistics) {
     if (statistics.hasOwnProperty(prop)) {
-      statList.push(<li key={prop}>{`${prop}: ${statistics[prop]}`}</li>);
+      const statistic = statistics[prop];
+      if (statistic.displayName) {
+        statList.push(
+          <li key={prop}>{`${statistic.displayName}: ${statistic.value || 0}`}</li>
+        );
+      }
     }
   }
 

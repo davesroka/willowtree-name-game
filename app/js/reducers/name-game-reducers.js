@@ -43,8 +43,8 @@ export default function nameGameReducers(state = {}, action) {
 
           if (!_.includes(choices, teamMember) && !_.includes(nextChoices, teamMember)) {
             if (state.mattMode) {
-              for (let name of matts) {
-                var nameArray = teamMember.name.split(space);
+              for (const name of matts) {
+                var nameArray = teamMember.name.split(' ');
                 if (nameArray[0].includes(name)) {
                   nextChoices.push(teamMember);
                   break;

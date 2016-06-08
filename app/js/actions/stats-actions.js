@@ -6,39 +6,36 @@ export const INCREMENT_STAT = 'INCREMENT_STAT';
 export const STAT_NAMES = {
   TOTAL_ROUNDS_STARTED: {
     objectName: 'totalRoundsStarted',
-    displayName: 'Total Rounds Started',
   },
   TOTAL_ROUNDS_COMPLETED: {
     objectName: 'totalRoundsCompleted',
-    displayName: 'Total Rounds Started',
+    displayName: 'Total Rounds Completed',
   },
-  TOTAL_ANSWERED: {
-    objectName: 'totalAnswered',
-    displayName: 'Total Answered',
-  },
+  COMPLETE_PERCENTAGE : {
+    objectName: 'completionPercentage',
+    displayName: 'Completion Percentage',
+  }
   TOTAL_CORRECT: {
     objectName: 'totalCorrect',
-    displayName: 'Total Correct',
+    displayName: 'Total Correct Clicks',
   },
   TOTAL_INCORRECT: {
     objectName: 'totalIncorrect',
-    displayName: 'Total Incorrect',
+    displayName: 'Total Incorrect Clicks',
+  },
+  ACCURACY: {
+    objectName: 'accuracy',
+    displayName: 'Accuracy',
   },
   TOTAL_TIME_TO_CORRECT: {
     objectName: 'totalTimeToCorrect',
-    dispalyName: 'Total Time To Correct',
-  },
-  AVG_TIME_TO_ANSWER: {
-    objectName: 'avgTimeToAnswer',
-    displayName: 'Average Time to Answer',
   },
   AVG_TIME_TO_FINISH: {
     objectName: 'avgTimeToFinish',
-    displayName: 'Average Time to Finish',
+    displayName: 'Average Time to Correct Answer (Seconds)',
   },
   BY_TEAM_MEMBER: {
     objectName: 'byTeamMember',
-    displayName: 'By Team Member',
   },
 };
 
@@ -62,18 +59,18 @@ export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
   console.log('localStatistics', statistics);
 
-  // if (!statistics) {
-  //   statistics = STAT_NAMES.map((statistic)=> {
-  //     const { objectName, displayName } = statistic;
-  //     return {
-  //       objectName,
-  //       displayName,
-  //       value: 0,
-  //     };
-  //   });
-  // }
-  //
-  // console.log('statistics', statistics);
+  if (!statistics) {
+    statistics = [];
+    for (const prop in STAT_NAMES) {
+      if (STAT_NAMES.hasOwnProperty(prop)) {
+        statistics[STAT_NAMES[prop].objectName] = {
+          displayName: STAT_NAMES[prop].displayName,
+        };
+      }
+    }
+  }
+
+  console.log('statistics', statistics);
 
   return {
     type: UPDATE_STATISTICS,
@@ -101,7 +98,10 @@ export function incrementStat(statKey, teamMember, incrementValue = 1) {
 
 export function addCorrect(lastAnswer) {
   // TODO add individual stat tracking
-  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName));
+  return dispatch => {
+    dispatch(incrementStat(STAT_NAMES.TOTAL_CORRECT.objectName));
+    dispatch(calculateAggregateStats());
+  }
 }
 export function addIncorrect(lastAnswer) {
   return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName));

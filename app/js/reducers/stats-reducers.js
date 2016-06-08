@@ -11,16 +11,22 @@ import {
 export default function statsReducers(state = {}, action) {
   switch (action.type) {
     case UPDATE_STATISTICS:
-      return { ...state, ...action.statistics };
+      return {
+        ...state,
+        ...action.statistics
+      };
     case INCREMENT_STAT :
     {
       const { statKey, teamMember, incrementValue } = action;
-      let value = state[statKey] || 0;
-      value+=incrementValue;
+      let value = (state[statKey] && state[statKey].value) ? state[statKey].value : 0;
+      value += incrementValue;
 
       const statistics = {
         ...state,
-        [statKey]: value,
+        [statKey]: {
+          ...state[statKey],
+          value,
+        }
       };
 
       localStorage.setObject('statistics', statistics);
