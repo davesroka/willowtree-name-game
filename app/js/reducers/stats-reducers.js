@@ -11,10 +11,15 @@ import {
 export default function statsReducers(state = {}, action) {
   switch (action.type) {
     case UPDATE_STATISTICS:
-      return {
+    {
+      const statistics = {
         ...state,
-        ...action.statistics
+        ...action.statistics,
       };
+      
+      localStorage.setObject('statistics', statistics);
+      return statistics;
+    }
     case INCREMENT_STAT :
     {
       const { statKey, teamMember, incrementValue } = action;
@@ -30,7 +35,6 @@ export default function statsReducers(state = {}, action) {
       };
 
       localStorage.setObject('statistics', statistics);
-      console.log('localstorage', localStorage);
       return statistics;
     }
     default:

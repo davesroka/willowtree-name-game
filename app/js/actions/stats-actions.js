@@ -11,17 +11,19 @@ export const STAT_NAMES = {
     objectName: 'totalRoundsCompleted',
     displayName: 'Total Rounds Completed',
   },
-  COMPLETE_PERCENTAGE : {
+  COMPLETION_PERCENTAGE: {
     objectName: 'completionPercentage',
     displayName: 'Completion Percentage',
-  }
+  },
   TOTAL_CORRECT: {
     objectName: 'totalCorrect',
-    displayName: 'Total Correct Clicks',
   },
   TOTAL_INCORRECT: {
     objectName: 'totalIncorrect',
-    displayName: 'Total Incorrect Clicks',
+  },
+  TOTAL_CLICKS: {
+    objectName: 'totalClicks',
+    displayName: 'Total Clicks',
   },
   ACCURACY: {
     objectName: 'accuracy',
@@ -57,7 +59,6 @@ export function fetchStatistics() {
 
 export function initStatistics() {
   let statistics = localStorage.getObject('statistics');
-  console.log('localStatistics', statistics);
 
   if (!statistics) {
     statistics = [];
@@ -69,9 +70,7 @@ export function initStatistics() {
       }
     }
   }
-
-  console.log('statistics', statistics);
-
+  
   return {
     type: UPDATE_STATISTICS,
     statistics,
@@ -104,11 +103,17 @@ export function addCorrect(lastAnswer) {
   }
 }
 export function addIncorrect(lastAnswer) {
-  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName));
+  return dispatch => {
+    dispatch(incrementStat(STAT_NAMES.TOTAL_INCORRECT.objectName));
+    dispatch(calculateAggregateStats());
+  }
 }
 
 export function addRoundStarted() {
-  return dispatch => dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED.objectName));
+  return dispatch => {
+    dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_STARTED.objectName));
+    dispatch(calculateAggregateStats());
+  }
 }
 
 export function addRoundCompleted(roundTime) {
@@ -116,6 +121,52 @@ export function addRoundCompleted(roundTime) {
     dispatch(incrementStat(STAT_NAMES.TOTAL_ROUNDS_COMPLETED.objectName));
     dispatch(incrementStat(STAT_NAMES.TOTAL_TIME_TO_CORRECT.objectName, null, roundTime));
   };
+}
+
+export function calculateAggregateStats() {
+  return (dispatch, getState)=> {
+    const {
+      totalCorrect,
+      totalIncorrect,
+      totalTimeToCorrect,
+      totalRoundsCompleted,
+      totalRoundsStarted,
+      avgTimeToFinish,
+      accuracy,
+      completionPercentage,
+      totalClicks,
+
+    } = getState().statistics;
+
+    const newAvgTimeToFinish = {
+      ...avgTimeToFinish,
+      value: (totalTimeToCorrect.value / totalRoundsCompleted.value).toFixed(2),
+    };
+    const newAccuracy = {
+      ...accuracy,
+      value: (totalCorrect.value / (totalCorrect.value + totalIncorrect.value) * 100).toFixed(2),
+    };
+    const newCompletionPercentage = {
+      ...completionPercentage,
+      value: (totalRoundsCompleted.value / totalRoundsStarted.value * 100).toFixed(2),
+    };
+    const newTotalClicks = {
+      ...totalClicks,
+      value: totalCorrect.value + totalIncorrect.value,
+    };
+
+    dispatch({
+      type: UPDATE_STATISTICS,
+      statistics: {
+        ...getState().statistics,
+        avgTimeToFinish: newAvgTimeToFinish,
+        completionPercentage: newCompletionPercentage,
+        accuracy: newAccuracy,
+        totalClicks: newTotalClicks,
+      }
+    })
+
+  }
 }
 
 
