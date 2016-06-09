@@ -1,3 +1,6 @@
 .statistics-list {
-  @extend .col-sm-12, .col-md-2, .well, .well-sm;
+  @extend .col-sm-12, .col-md-2;
+}
+.statistics-table {
+  @extend .table, .table-hover;
 }

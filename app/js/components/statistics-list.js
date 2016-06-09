@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Table from 'react-bootstrap';
 
 const StatisticsList = ({ statistics }) => {
   let statList = [];
@@ -10,7 +11,10 @@ const StatisticsList = ({ statistics }) => {
       const statistic = statistics[prop];
       if (statistic.displayName) {
         statList.push(
-          <li key={prop}>{`${statistic.displayName}: ${statistic.value || 0}`}</li>
+          <tr key={prop}>
+            <td>{statistic.displayName}</td>
+            <td>{statistic.value || 0}</td>
+          </tr>
         );
       }
     }
@@ -18,9 +22,11 @@ const StatisticsList = ({ statistics }) => {
 
   return (
     <div className="statistics-list">
-      <ul>
+      <table className="statistics-table">
+        <tbody>
         {statList}
-      </ul>
+        </tbody>
+      </table>
     </div>
   );
 };

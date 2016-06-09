@@ -80,7 +80,6 @@ export function initStatistics() {
 export function resetStatistics() {
   return dispatch => {
     localStorage.removeItem('statistics');
-    console.log(localStorage.getObject('statisitcs'));
     dispatch(initStatistics());
   };
 }

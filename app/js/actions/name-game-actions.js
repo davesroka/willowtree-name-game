@@ -90,34 +90,37 @@ export function toggleHintMode() {
   }
 }
 
+function isAvailableToFade(choice) {
+  return (!choice.faded && !choice.displayStyle && !choice.answer);
+}
+
 export function startHintModeTimer() {
   return (dispatch, getState) => {
     const { choices } = getState().nameGame;
     let indexToFade;
-    const remainingChoices = choices.filter(choice=>{
-      return (!choice.faded && !choice.displayStyle);
-    });
-    console.log('remainingChoices', remainingChoices);
+    const remainingChoices = choices.filter(isAvailableToFade);
+
     if (remainingChoices.length > 1) {
       while (!indexToFade) {
-        const index = getRandomInt(0, remainingChoices.length);
-        if (!remainingChoices[index].answer) {
+        const index = getRandomInt(0, choices.length);
+        if (isAvailableToFade(choices[index])) {
           indexToFade = index;
         }
       }
       setTimeout(()=>dispatch(fadeOutChoice(indexToFade)), 4000);
     }
-
   };
 }
 
 export function fadeOutChoice(indexToFade) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: FADE_OUT_CHOICE,
       indexToFade,
     });
-    dispatch(startHintModeTimer());
+    if (getState().nameGame.hintMode) {
+      dispatch(startHintModeTimer());
+    }
   };
 }
 export function toggleMattMode() {
