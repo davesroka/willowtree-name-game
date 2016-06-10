@@ -48,6 +48,7 @@ function receiveStatistics(statistics) {
   };
 }
 
+// Statistics endpoint currently in development
 export function fetchStatistics() {
   return dispatch => {
     ApiService.fetchStatistics()
@@ -66,11 +67,12 @@ export function initStatistics() {
       if (STAT_NAMES.hasOwnProperty(prop)) {
         statistics[STAT_NAMES[prop].objectName] = {
           displayName: STAT_NAMES[prop].displayName,
+          value: 0,
         };
       }
     }
   }
-  
+
   return {
     type: UPDATE_STATISTICS,
     statistics,
@@ -124,47 +126,37 @@ export function addRoundCompleted(roundTime) {
 
 export function calculateAggregateStats() {
   return (dispatch, getState)=> {
+
+    let updatedStats = {
+      ...getState().statistics,
+    };
+
     const {
-      totalCorrect,
-      totalIncorrect,
       totalTimeToCorrect,
       totalRoundsCompleted,
       totalRoundsStarted,
-      avgTimeToFinish,
-      accuracy,
-      completionPercentage,
-      totalClicks,
-
+      totalCorrect,
+      totalIncorrect,
     } = getState().statistics;
 
-    const newAvgTimeToFinish = {
-      ...avgTimeToFinish,
-      value: (totalTimeToCorrect.value / totalRoundsCompleted.value).toFixed(2),
-    };
-    const newAccuracy = {
-      ...accuracy,
-      value: (totalCorrect.value / (totalCorrect.value + totalIncorrect.value) * 100).toFixed(2),
-    };
-    const newCompletionPercentage = {
-      ...completionPercentage,
-      value: (totalRoundsCompleted.value / totalRoundsStarted.value * 100).toFixed(2),
-    };
-    const newTotalClicks = {
-      ...totalClicks,
-      value: totalCorrect.value + totalIncorrect.value,
-    };
+    updatedStats.avgTimeToFinish.value = (totalTimeToCorrect.value && totalRoundsCompleted.value)
+      ? (totalTimeToCorrect.value / totalRoundsCompleted.value).toFixed(2)
+      : 0;
+
+    updatedStats.accuracy.value = (totalCorrect.value && totalIncorrect.value)
+      ? (totalCorrect.value / (totalCorrect.value + totalIncorrect.value) * 100).toFixed(2)
+      : 0.00;
+
+    updatedStats.completionPercentage.value = (totalRoundsCompleted.value && totalRoundsStarted.value)
+      ? (totalRoundsCompleted.value / totalRoundsStarted.value * 100).toFixed(2)
+      : 0.00;
+
+    updatedStats.totalClicks.value = totalCorrect.value + totalIncorrect.value;
 
     dispatch({
       type: UPDATE_STATISTICS,
-      statistics: {
-        ...getState().statistics,
-        avgTimeToFinish: newAvgTimeToFinish,
-        completionPercentage: newCompletionPercentage,
-        accuracy: newAccuracy,
-        totalClicks: newTotalClicks,
-      }
-    })
-
+      updatedStats,
+    });
   }
 }
 
