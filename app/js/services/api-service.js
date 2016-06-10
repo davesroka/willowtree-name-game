@@ -1,11 +1,11 @@
 import fetch from 'isomorphic-fetch';
 
 export const baseUrls = {
-  willowTree: 'http://localhost:3000',
+  willowTree: 'http://api.namegame.willowtreemobile.com',
   local: 'http://localhost:3000',
 };
 export const resourceUrls = {
-  teamMembers: `${baseUrls.willowTree}/teammembers`,
+  teamMembers: `${baseUrls.willowTree}`,
   statistics: `${baseUrls.local}/statistics`
 };
 
