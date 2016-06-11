@@ -13,7 +13,7 @@
     "test": "",
     "lint": "eslint . --ext .js --ignore-path .gitignore --cache",
     "prebuild": "npm run clean",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack --config webpack.prod.js"
   },
   "author": "Dave Sroka",
   "license": "MIT",

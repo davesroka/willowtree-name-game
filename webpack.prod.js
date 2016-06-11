@@ -41,8 +41,19 @@ module.exports = {
       services: `${APP_DIR}/js/services`,
     },
   },
-  devServer: {
-    historyApiFallback: true,
-  },
   devtool: 'source-map',
-};
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    })
+  ]
+}
+;
