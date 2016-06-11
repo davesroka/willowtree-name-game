@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "clean": "rm -rf ./app/dist",
-    "start": "npm install && webpack-dev-server --progress --colors --inline --content-base app/",
+    "start:dev": "npm install && webpack-dev-server --progress --colors --inline --content-base app/",
     "start:local": "json-server db.json",
+    "start": "node server.js",
     "test": "",
     "lint": "eslint . --ext .js --ignore-path .gitignore --cache",
     "prebuild": "npm run clean",
