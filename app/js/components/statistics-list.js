@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react';
-import Table from 'react-bootstrap';
 
 const StatisticsList = ({ statistics }) => {
   let statList = [];
-
-  console.log('statistics', statistics);
 
   for (let prop in statistics) {
     if (statistics.hasOwnProperty(prop)) {

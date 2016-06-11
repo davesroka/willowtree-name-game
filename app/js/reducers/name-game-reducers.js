@@ -53,7 +53,10 @@ export default function nameGameReducers(state = {}, action) {
 
             }
             else {
-              nextChoices.push(teamMember);
+              nextChoices.push({
+                ...teamMember,
+                displayStyle: '',
+              });
             }
 
           }

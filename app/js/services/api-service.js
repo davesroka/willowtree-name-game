@@ -19,10 +19,7 @@ export default class ApiService {
       url += (resourceId) ? `/${resourceId}` : '';
 
       fetch(url)
-        .then(response => {
-          console.log('response', response);
-          return response.json()
-        })
+        .then(response => response.json())
         .then(resolve)
         .catch(reject);
     });

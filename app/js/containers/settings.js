@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Button } from 'react-materialize';
 import { Button } from 'react-bootstrap';
 import { updateSettings } from 'actions/settings-actions';
 import { resetStatistics } from 'actions/stats-actions';

@@ -2,7 +2,6 @@ import ApiService from 'services/api-service';
 import { updateSettings } from 'actions/settings-actions';
 import * as StatsActions from 'actions/stats-actions';
 import { getRandomInt } from 'reducers/name-game-reducers';
-import _ from 'lodash';
 
 export const RECEIVE_TEAM_MEMBERS = 'RECEIVE_TEAM_MEMBERS';
 export const REFRESH_GAME_CHOICES = 'REFRESH_GAME_OPTIONS';
@@ -51,7 +50,6 @@ export function startNewGame() {
 export function finishGame() {
   return (dispatch, getState) => {
     const roundTime = (Date.now() - getState().nameGame.startTime) / 1000;
-    console.log('roundTime', roundTime);
     dispatch(StatsActions.addRoundCompleted(roundTime));
     setTimeout(()=> {
       dispatch(startNewGame());
