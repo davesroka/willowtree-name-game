@@ -25,6 +25,6 @@ npm install -g webpack-dev-server
 ```
 then:
 ```bash
-npm start:dev
+npm run start:dev
 ```
 
