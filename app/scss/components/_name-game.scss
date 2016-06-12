@@ -1,0 +1,7 @@
+.question {
+  @extend .text-center, .col-sm-12, .col-md-offset-2, .col-md-10;
+}
+
+.option-buttons-group {
+  @extend .col-sm-4, .col-sm-offset-8, .col-md-2, .col-md-offset-10;
+}

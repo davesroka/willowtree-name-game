@@ -1,10 +1,14 @@
-
 @import 'base/page';
 
 @import 'utils/variables';
+@import 'base/bootstrap/stylesheets/bootstrap';
 @import 'utils/functions';
 @import 'utils/mixins';
 
 // Components
-@import 'components/hello';
+@import 'components/name-game';
+@import 'components/team-member-list';
+@import 'components/team-member';
+@import 'components/statistics-list';
+
 
