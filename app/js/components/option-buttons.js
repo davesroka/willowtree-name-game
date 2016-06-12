@@ -9,16 +9,16 @@ const OptionButtons = ({
   <ButtonToolbar className="row">
     <ButtonGroup className="pull-right">
       <Button
-        bsSize="xsmall"
+        bsSize="small"
         bsStyle={(mattMode) ? 'success' : 'default'}
         onClick={onMattModeClick}
       >
-        {`Matt Mode: ${(mattMode) ? 'on' : 'off'}`}
+        {`Mat(t) Mode: ${(mattMode) ? 'on' : 'off'}`}
       </Button>
     </ButtonGroup>
     <ButtonGroup className="pull-right">
       <Button
-        bsSize="xsmall"
+        bsSize="small"
         bsStyle={(hintMode) ? 'success' : 'default'}
         onClick={onHintModeClick}
       >
