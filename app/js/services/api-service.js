@@ -10,19 +10,13 @@ export const resourceUrls = {
 };
 
 export default class ApiService {
-
-
   static fetchResource(resourceType, resourceId) {
-    return new Promise((resolve, reject) => {
+    let url = resourceUrls[resourceType];
+    url += (resourceId) ? `/${resourceId}` : '';
 
-      let url = resourceUrls[resourceType];
-      url += (resourceId) ? `/${resourceId}` : '';
-
-      fetch(url)
-        .then(response => response.json())
-        .then(resolve)
-        .catch(reject);
-    });
+    return fetch(url)
+      .then(response => response.json())
+      .then(this.sanitizeNames);
   }
 
   static fetchTeamMembers() {
@@ -31,5 +25,15 @@ export default class ApiService {
 
   static fetchStatistics(statisticId) {
     return this.fetchResource('statistics', statisticId);
+  }
+
+  static sanitizeNames(teamMembers) {
+    for (let teamMember of teamMembers) {
+      const lastChar = teamMember.name.slice(-1);
+      if (lastChar === '-' || !isNaN(parseInt(lastChar))) {
+        teamMember.name = teamMember.name.slice(0, -1).trim();
+      }
+    }
+    return teamMembers;
   }
 }
