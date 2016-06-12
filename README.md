@@ -1,6 +1,11 @@
 # Willowtree Name Game
 
-Implementation of WillowTree Apps name game for hiring review.
+Implementation of WillowTree Apps name game for hiring review.  
+
+Included extra features:
+- Stat Tracking
+- Hint Mode - as you wait, incorrect answers fade out
+- Mat(t) Mode - Only Mat(t)'s presented
 
 Built with:
 - React
